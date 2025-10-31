@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { getProducts, ShopifyProduct } from "@/lib/shopify";
 import { Navbar } from "@/components/Navbar";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Sparkles, ShoppingCart } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ShoppingCart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
@@ -57,6 +58,10 @@ const ProductCard = ({ product }: { product: ShopifyProduct }) => {
         
         <div className="p-4 space-y-3">
           <h3 className="font-semibold text-lg line-clamp-1">{product.node.title}</h3>
+          <p className="text-sm text-muted-foreground line-clamp-2">
+            {product.node.description}
+          </p>
+          
           <div className="flex items-center justify-between pt-2">
             <span className="text-2xl font-bold">
               {price.currencyCode} {parseFloat(price.amount).toFixed(2)}
@@ -66,6 +71,7 @@ const ProductCard = ({ product }: { product: ShopifyProduct }) => {
               onClick={handleAddToCart}
               disabled={!variant?.availableForSale}
             >
+              <ShoppingCart className="h-4 w-4 mr-2" />
               Add to Cart
             </Button>
           </div>
@@ -75,81 +81,56 @@ const ProductCard = ({ product }: { product: ShopifyProduct }) => {
   );
 };
 
-const Index = () => {
-  const navigate = useNavigate();
-  const { data: products } = useQuery({
+const Catalog = () => {
+  const { data: products, isLoading } = useQuery({
     queryKey: ['products'],
-    queryFn: () => getProducts(8)
+    queryFn: () => getProducts(20)
   });
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-background to-accent/5 py-20 md:py-32">
-        <div className="container relative z-10">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/20 text-sm font-medium mb-4">
-              <Sparkles className="h-4 w-4" />
-              <span>AI-Powered Fashion Shopping</span>
-            </div>
-            
-            <h1 className="text-5xl md:text-7xl font-bold leading-tight">
-              Your Smart Fashion
-              <br />
-              <span className="text-primary">Destination</span>
-            </h1>
-            
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Experience the future of online shopping with AI-powered virtual try-on and personalized recommendations
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-              <Button size="lg" onClick={() => navigate('/catalog')}>
-                Shop Now
-              </Button>
-              <Button size="lg" variant="outline">
-                Learn More
-              </Button>
-            </div>
+      <main className="container py-12">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold mb-2">Shop All Products</h1>
+          <p className="text-muted-foreground">Discover our latest collection</p>
+        </div>
+
+        {isLoading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {[...Array(8)].map((_, i) => (
+              <Card key={i}>
+                <CardContent className="p-0">
+                  <Skeleton className="aspect-square rounded-t-lg" />
+                  <div className="p-4 space-y-3">
+                    <Skeleton className="h-6 w-3/4" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-2/3" />
+                    <Skeleton className="h-10 w-full" />
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
-        </div>
-      </section>
-
-      {/* Featured Products */}
-      <section className="container py-16">
-        <div className="mb-10 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-3">Featured Products</h2>
-          <p className="text-muted-foreground">Discover our curated selection</p>
-        </div>
-
-        {products && products.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {products.slice(0, 4).map((product) => (
+        ) : products && products.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {products.map((product) => (
               <ProductCard key={product.node.id} product={product} />
             ))}
           </div>
         ) : (
           <div className="text-center py-20">
             <ShoppingCart className="h-20 w-20 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-2xl font-bold mb-2">No products yet</h3>
+            <h2 className="text-2xl font-bold mb-2">No products found</h2>
             <p className="text-muted-foreground mb-6">
               Start by creating your first product! Tell me what product you'd like to add and its price.
             </p>
           </div>
         )}
-
-        {products && products.length > 0 && (
-          <div className="text-center mt-10">
-            <Button size="lg" onClick={() => navigate('/catalog')}>
-              View All Products
-            </Button>
-          </div>
-        )}
-      </section>
+      </main>
     </div>
   );
 };
 
-export default Index;
+export default Catalog;

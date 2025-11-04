@@ -1,0 +1,7 @@
+project_id = "wcvhgaptkshbcmohutii"
+
+[functions.ai-store-builder]
+verify_jwt = false
+
+[functions.ai-chat-assistant]
+verify_jwt = false

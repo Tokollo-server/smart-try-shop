@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams, useNavigate } from "react-router-dom";
 import { getProductByHandle } from "@/lib/shopify";
 import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
@@ -80,10 +79,10 @@ const Product = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background">
       <Navbar />
       
-      <main className="container py-12 flex-1">
+      <main className="container py-12">
         <Button 
           variant="ghost" 
           className="mb-6"
@@ -181,8 +180,6 @@ const Product = () => {
           </div>
         </div>
       </main>
-      
-      <Footer />
     </div>
   );
 };

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -47,17 +46,17 @@ const AIBuilder = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background">
       <Navbar />
       
-      <div className="container py-12 flex-1">
+      <div className="container py-12">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
               <Sparkles className="h-4 w-4" />
               <span>AI Store Builder</span>
             </div>
-            <h1 className="text-4xl font-bold mb-3">AI-Powered Store Configuration</h1>
+            <h1 className="text-4xl font-bold mb-3">Build Your Store with AI</h1>
             <p className="text-muted-foreground text-lg">
               Let AI create a complete store design, product layout, and theme suggestions
             </p>
@@ -148,8 +147,6 @@ const AIBuilder = () => {
           </div>
         </div>
       </div>
-      
-      <Footer />
     </div>
   );
 };

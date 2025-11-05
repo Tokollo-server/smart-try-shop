@@ -76,6 +76,17 @@ export const useCartStore = create<CartStore>()(
 
         setLoading(true);
         try {
+          // Check if user is authenticated
+          const { supabase } = await import("@/integrations/supabase/client");
+          const { data: { session } } = await supabase.auth.getSession();
+          
+          if (!session) {
+            // Redirect to auth page if not logged in
+            window.location.href = '/auth';
+            setLoading(false);
+            return;
+          }
+
           const checkoutUrl = await createStorefrontCheckout(items);
           setCheckoutUrl(checkoutUrl);
         } catch (error) {

@@ -73,7 +73,7 @@ export const Navbar = () => {
           </form>
           
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" onClick={() => navigate("/admin")}>
+            <Button variant="ghost" size="icon" onClick={() => navigate("/auth")}>
               <User className="h-5 w-5" />
             </Button>
             <CartDrawer />

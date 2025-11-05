@@ -39,23 +39,39 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-black flex flex-col">
       <Navbar />
       
       {/* Hero Banner */}
-      <section className="relative bg-gradient-to-r from-primary via-accent to-primary py-20 md:py-32">
-        <div className="container text-center text-white">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">Welcome to Smart Closet</h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">Discover the latest fashion trends for everyone</p>
-          <Button size="lg" variant="secondary" onClick={() => navigate('/catalog')}>
+      <section className="relative h-[600px] md:h-[700px] flex items-center justify-center overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: "url('https://images.unsplash.com/photo-1558769132-cb1aea9c7a1b?q=80&w=2000')"
+          }}
+        />
+        <div className="absolute inset-0 bg-black/40" />
+        
+        <div className="container text-center text-white relative z-10">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in-up">
+            Welcome to Smart Closet
+          </h1>
+          <p className="text-xl md:text-3xl mb-10 max-w-3xl mx-auto animate-fade-in-up-delay font-light">
+            Discover the latest fashion trends for everyone
+          </p>
+          <Button 
+            size="lg" 
+            className="animate-fade-in-up-delay bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg"
+            onClick={() => navigate('/catalog')}
+          >
             Shop Now
           </Button>
         </div>
       </section>
 
       {/* Categories */}
-      <section className="container py-12">
-        <h2 className="text-3xl font-bold mb-8 text-center">Shop by Category</h2>
+      <section className="container py-16 md:py-24">
+        <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center text-white">Shop by Category</h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {categories.map((category) => (
             <Link key={category.name} to={category.link}>
@@ -76,10 +92,10 @@ const Index = () => {
       </section>
 
       {/* Featured Products */}
-      <section className="container py-12 bg-secondary/20">
-        <div className="mb-10 text-center">
-          <h2 className="text-3xl font-bold mb-3">Featured Products</h2>
-          <p className="text-muted-foreground">Discover trending items</p>
+      <section className="container py-16 md:py-24 bg-zinc-900/30">
+        <div className="mb-12 text-center">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">Featured Products</h2>
+          <p className="text-gray-400 text-lg">Discover trending items</p>
         </div>
 
         {products && products.length > 0 ? (
@@ -140,8 +156,12 @@ const Index = () => {
         )}
 
         {products && products.length > 0 && (
-          <div className="text-center mt-10">
-            <Button size="lg" onClick={() => navigate('/catalog')}>
+          <div className="text-center mt-12">
+            <Button 
+              size="lg" 
+              className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg"
+              onClick={() => navigate('/catalog')}
+            >
               View All Products
             </Button>
           </div>

@@ -6,10 +6,12 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingCart, ArrowLeft } from "lucide-react";
+import { ShoppingCart, ArrowLeft, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
+import { AIOutfitRecommendations } from "@/components/AIOutfitRecommendations";
+import { VirtualTryOnModal } from "@/components/VirtualTryOnModal";
 
 const Product = () => {
   const { handle } = useParams();
@@ -17,6 +19,7 @@ const Product = () => {
   const addItem = useCartStore(state => state.addItem);
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [showTryOn, setShowTryOn] = useState(false);
 
   const { data: product, isLoading } = useQuery({
     queryKey: ['product', handle],
@@ -167,7 +170,7 @@ const Product = () => {
               </div>
             )}
 
-            <div className="pt-4">
+            <div className="pt-4 space-y-3">
               <Button 
                 size="lg" 
                 className="w-full"
@@ -177,12 +180,39 @@ const Product = () => {
                 <ShoppingCart className="mr-2 h-5 w-5" />
                 {selectedVariant?.availableForSale ? 'Add to Cart' : 'Out of Stock'}
               </Button>
+              
+              <Button 
+                variant="outline"
+                size="lg" 
+                className="w-full"
+                onClick={() => setShowTryOn(true)}
+              >
+                <Sparkles className="mr-2 h-5 w-5" />
+                👕 Try It On (AI)
+              </Button>
             </div>
           </div>
+        </div>
+
+        {/* AI Outfit Recommendations */}
+        <div className="mt-16">
+          <AIOutfitRecommendations 
+            productName={product.title}
+            productType={product.productType || "clothing"}
+          />
         </div>
       </main>
       
       <Footer />
+      
+      {/* Virtual Try-On Modal */}
+      <VirtualTryOnModal
+        isOpen={showTryOn}
+        onClose={() => setShowTryOn(false)}
+        productName={product.title}
+        productType={product.productType || "clothing"}
+        productDescription={product.description}
+      />
     </div>
   );
 };

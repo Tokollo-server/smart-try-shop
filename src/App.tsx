@@ -10,6 +10,7 @@ import AIBuilder from "./pages/AIBuilder";
 import AIAssistant from "./pages/AIAssistant";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
+import { SmartStylistChat } from "@/components/SmartStylistChat";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const App = () => (
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <SmartStylistChat />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

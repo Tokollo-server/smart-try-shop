@@ -5,3 +5,15 @@ verify_jwt = false
 
 [functions.ai-chat-assistant]
 verify_jwt = false
+
+[functions.gemini-fashion-chat]
+verify_jwt = false
+
+[functions.gemini-outfit-recommendations]
+verify_jwt = false
+
+[functions.gemini-smart-search]
+verify_jwt = false
+
+[functions.gemini-virtual-tryon]
+verify_jwt = false

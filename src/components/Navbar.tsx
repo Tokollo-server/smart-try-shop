@@ -6,15 +6,32 @@ import { Input } from "./ui/input";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "@/assets/logo.jpg";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
-  const handleSearch = (e: React.FormEvent) => {
+  const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      navigate(`/catalog?search=${encodeURIComponent(searchQuery)}`);
+      // Use AI to enhance search
+      try {
+        const { data } = await supabase.functions.invoke('gemini-smart-search', {
+          body: { query: searchQuery }
+        });
+        
+        if (data?.keywords?.length > 0) {
+          const searchTerm = data.keywords.join(' ');
+          const category = data.category !== 'all' ? `&category=${data.category}` : '';
+          navigate(`/catalog?search=${encodeURIComponent(searchTerm)}${category}`);
+        } else {
+          navigate(`/catalog?search=${encodeURIComponent(searchQuery)}`);
+        }
+      } catch (error) {
+        // Fallback to regular search
+        navigate(`/catalog?search=${encodeURIComponent(searchQuery)}`);
+      }
     }
   };
 

@@ -12,6 +12,7 @@ import Admin from "./pages/Admin";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import { SmartStylistChat } from "@/components/SmartStylistChat";
+import { ShippingProgressBar } from "@/components/ShippingProgressBar";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,7 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
         <SmartStylistChat />
+        <ShippingProgressBar />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

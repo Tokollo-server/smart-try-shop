@@ -17,3 +17,6 @@ verify_jwt = false
 
 [functions.gemini-virtual-tryon]
 verify_jwt = false
+
+[functions.admin-ai-insights]
+verify_jwt = false

@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import heroImage from "@/assets/hero-closet.jpg";
 
 export default function Auth() {
   const navigate = useNavigate();
@@ -61,11 +62,25 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen bg-black flex flex-col">
-      <Navbar />
-      
-      <div className="flex-1 flex items-center justify-center py-12 px-4">
-        <Card className="w-full max-w-md bg-zinc-900 border-zinc-800">
+    <div className="min-h-screen flex flex-col relative">
+      {/* Background Image with Overlay */}
+      <div 
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: `url(${heroImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div className="absolute inset-0 bg-black/70" />
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 flex flex-col min-h-screen">
+        <Navbar />
+        
+        <div className="flex-1 flex items-center justify-center py-12 px-4">
+          <Card className="w-full max-w-md bg-black/80 backdrop-blur-sm border-zinc-800">
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl text-white text-center">Welcome</CardTitle>
             <CardDescription className="text-center text-gray-400">
@@ -151,6 +166,7 @@ export default function Auth() {
       </div>
       
       <Footer />
+      </div>
     </div>
   );
 }

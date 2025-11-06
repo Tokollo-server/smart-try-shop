@@ -11,10 +11,10 @@ export const ShippingProgressBar = () => {
   const remaining = Math.max(shippingThreshold - totalPrice, 0);
 
   return (
-    <div className="bg-zinc-900 border-b border-zinc-800">
+    <div className="fixed bottom-0 left-0 right-0 bg-zinc-900 border-t border-zinc-800 z-50 animate-in slide-in-from-bottom duration-500">
       <div className="container py-3">
         <div className="flex items-center gap-3">
-          <Truck className="h-4 w-4 text-primary flex-shrink-0" />
+          <Truck className="h-4 w-4 text-primary flex-shrink-0 animate-bounce" />
           <div className="flex-1">
             <div className="flex items-center justify-between mb-1">
               <span className="text-xs font-semibold text-white">
@@ -24,7 +24,13 @@ export const ShippingProgressBar = () => {
               </span>
               <span className="text-xs text-gray-400">${totalPrice.toFixed(2)} / $29.00</span>
             </div>
-            <Progress value={progress} className="h-1.5 bg-zinc-800" />
+            <div className="relative">
+              <Progress value={progress} className="h-1.5 bg-zinc-800" />
+              <div 
+                className="absolute top-0 left-0 h-full bg-gradient-to-r from-primary via-purple-500 to-primary bg-[length:200%_100%] animate-shimmer rounded-full transition-all duration-300"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
           </div>
         </div>
       </div>

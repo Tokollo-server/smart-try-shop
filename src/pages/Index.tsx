@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "@/lib/shopify";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { ShippingProgressBar } from "@/components/ShippingProgressBar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -42,9 +41,8 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black flex flex-col">
+    <div className="min-h-screen bg-black flex flex-col pb-20">
       <Navbar />
-      <ShippingProgressBar />
       
       {/* Hero Banner */}
       <section className="relative h-[600px] md:h-[700px] flex items-center justify-center overflow-hidden">

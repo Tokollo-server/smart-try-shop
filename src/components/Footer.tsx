@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, Twitter } from "lucide-react";
-
 export const Footer = () => {
-  return (
-    <footer className="bg-zinc-950 border-t border-zinc-800 mt-auto">
+  return <footer className="bg-zinc-950 border-t border-zinc-800 mt-auto">
       <div className="container py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           <div>
@@ -27,7 +25,7 @@ export const Footer = () => {
             <h3 className="font-bold text-xl mb-6 text-white">Customer Care</h3>
             <ul className="space-y-3 text-sm">
               <li className="text-gray-400">Email: support@smartcloset.com</li>
-              <li className="text-gray-400">Phone: +1 (555) 123-4567</li>
+              <li className="text-gray-400">Phone: +27 64 663 0612</li>
               <li className="text-gray-400">Hours: Mon-Fri 9AM-6PM EST</li>
             </ul>
           </div>
@@ -60,6 +58,5 @@ export const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };

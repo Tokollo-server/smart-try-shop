@@ -2,13 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "@/lib/shopify";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { ShippingProgressBar } from "@/components/ShippingProgressBar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ShoppingCart } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { ShoppingCart, Tag } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
+import heroImage from "@/assets/hero-closet.jpg";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -41,13 +44,14 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-black flex flex-col">
       <Navbar />
+      <ShippingProgressBar />
       
       {/* Hero Banner */}
       <section className="relative h-[600px] md:h-[700px] flex items-center justify-center overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1558769132-cb1aea9c7a1b?q=80&w=2000')"
+            backgroundImage: `url(${heroImage})`
           }}
         />
         <div className="absolute inset-0 bg-black/40" />
@@ -91,81 +95,69 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Featured Products */}
-      <section className="container py-16 md:py-24 bg-zinc-900/30">
+      {/* BOGO Deals Section */}
+      <section className="container py-16 md:py-24">
         <div className="mb-12 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">Featured Products</h2>
-          <p className="text-gray-400 text-lg">Discover trending items</p>
+          <Badge className="mb-4 text-lg px-4 py-2 bg-accent">Limited Time Offer</Badge>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">BOGO Shop Deals</h2>
+          <p className="text-gray-400 text-lg">Buy One, Get One Free on Selected Items</p>
         </div>
 
-        {products && products.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {products.slice(0, 8).map((product) => {
-              const image = product.node.images?.edges?.[0]?.node;
-              const price = product.node.priceRange.minVariantPrice;
-              
-              return (
-                <Card 
-                  key={product.node.id}
-                  className="group overflow-hidden"
-                >
-                  <div 
-                    className="aspect-square overflow-hidden bg-secondary/20 cursor-pointer"
-                    onClick={() => navigate(`/product/${product.node.handle}`)}
-                  >
-                    {image ? (
-                      <img
-                        src={image.url}
-                        alt={image.altText || product.node.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <ShoppingCart className="h-16 w-16 text-muted-foreground" />
-                      </div>
-                    )}
-                  </div>
-                  
-                  <div className="p-4 space-y-3">
-                    <div onClick={() => navigate(`/product/${product.node.handle}`)} className="cursor-pointer">
-                      <h3 className="font-semibold line-clamp-1 mb-1">{product.node.title}</h3>
-                      <p className="text-lg font-bold text-primary">
-                        {price.currencyCode} {parseFloat(price.amount).toFixed(2)}
-                      </p>
-                    </div>
-                    <Button 
-                      className="w-full" 
-                      size="sm"
-                      onClick={() => handleAddToCart(product)}
-                    >
-                      Add to Cart
-                    </Button>
-                  </div>
-                </Card>
-              );
-            })}
-          </div>
-        ) : (
-          <div className="text-center py-20">
-            <ShoppingCart className="h-20 w-20 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-2xl font-bold mb-2">No products yet</h3>
-            <p className="text-muted-foreground mb-6">
-              Your store is ready! Add products to get started.
-            </p>
-          </div>
-        )}
-
-        {products && products.length > 0 && (
-          <div className="text-center mt-12">
-            <Button 
-              size="lg" 
-              className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg"
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[
+            {
+              title: "Summer Collection",
+              description: "Buy 1 Get 1 Free on all summer wear",
+              image: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800&q=80",
+              tag: "50% OFF"
+            },
+            {
+              title: "Accessories Deal",
+              description: "BOGO on all bags and accessories",
+              image: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=800&q=80",
+              tag: "BOGO"
+            },
+            {
+              title: "Footwear Bonanza",
+              description: "Buy one pair, get another free",
+              image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800&q=80",
+              tag: "2 FOR 1"
+            }
+          ].map((deal, index) => (
+            <Card 
+              key={index}
+              className="group overflow-hidden cursor-pointer hover:shadow-xl transition-all"
               onClick={() => navigate('/catalog')}
             >
-              View All Products
-            </Button>
-          </div>
-        )}
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <img
+                  src={deal.image}
+                  alt={deal.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <Badge className="absolute top-4 right-4 bg-accent text-white text-sm px-3 py-1">
+                  {deal.tag}
+                </Badge>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                <div className="absolute bottom-6 left-6 right-6">
+                  <h3 className="text-2xl font-bold text-white mb-2">{deal.title}</h3>
+                  <p className="text-white/90 text-sm">{deal.description}</p>
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
+
+        <div className="text-center mt-12">
+          <Button 
+            size="lg" 
+            className="bg-accent hover:bg-accent/90 text-white px-8 py-6 text-lg"
+            onClick={() => navigate('/catalog')}
+          >
+            <Tag className="mr-2 h-5 w-5" />
+            Shop All Deals
+          </Button>
+        </div>
       </section>
 
       <Footer />

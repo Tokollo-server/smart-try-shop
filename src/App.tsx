@@ -10,6 +10,7 @@ import AIBuilder from "./pages/AIBuilder";
 import AIAssistant from "./pages/AIAssistant";
 import Admin from "./pages/Admin";
 import Auth from "./pages/Auth";
+import ImageGenerator from "./pages/ImageGenerator";
 import NotFound from "./pages/NotFound";
 import { SmartStylistChat } from "@/components/SmartStylistChat";
 import { ShippingProgressBar } from "@/components/ShippingProgressBar";
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/auth" element={<Auth />} />
           <Route path="/ai-builder" element={<AIBuilder />} />
           <Route path="/ai-assistant" element={<AIAssistant />} />
+          <Route path="/image-generator" element={<ImageGenerator />} />
           <Route path="/admin" element={<Admin />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

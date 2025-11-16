@@ -1,12 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CartDrawer } from "./CartDrawer";
-import { Search, User } from "lucide-react";
+import { Search, User, Sparkles, Image } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import logo from "@/assets/logo.jpg";
 import { supabase } from "@/integrations/supabase/client";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 export const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
@@ -59,6 +64,24 @@ export const Navbar = () => {
           </form>
           
           <div className="flex items-center gap-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="text-white hover:bg-white/10">
+                  <Sparkles className="h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => navigate("/image-generator")}>
+                  <Image className="mr-2 h-4 w-4" />
+                  AI Image Generator
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/ai-assistant")}>
+                  <Sparkles className="mr-2 h-4 w-4" />
+                  AI Shopping Assistant
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            
             <Button variant="ghost" size="icon" className="text-white hover:bg-white/10" onClick={() => navigate("/auth")}>
               <User className="h-5 w-5" />
             </Button>

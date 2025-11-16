@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { checkRateLimit } from "../_shared/rateLimiter.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -49,6 +50,19 @@ serve(async (req) => {
   }
 
   try {
+    // Rate limiting (30 requests per 10 minutes for chat)
+    const authHeader = req.headers.get('Authorization');
+    const rateLimitResult = await checkRateLimit(authHeader, 'ai-chat-assistant', 30, 10);
+    
+    if (!rateLimitResult.allowed) {
+      return new Response(
+        JSON.stringify({ 
+          error: rateLimitResult.error || 'Rate limit exceeded. Please try again in a few minutes.' 
+        }),
+        { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
     const requestData = await req.json();
     const { messages } = validateInput(requestData);
     

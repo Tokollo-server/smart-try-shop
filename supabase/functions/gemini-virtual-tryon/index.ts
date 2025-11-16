@@ -5,13 +5,42 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Input validation
+function validateInput(data: any): { productName: string; productType: string; productDescription?: string } {
+  if (!data || typeof data !== 'object') {
+    throw new Error('Invalid request body');
+  }
+
+  if (!data.productName || typeof data.productName !== 'string') {
+    throw new Error('Product name is required and must be a string');
+  }
+
+  if (data.productName.length === 0 || data.productName.length > 200) {
+    throw new Error('Product name must be between 1 and 200 characters');
+  }
+
+  const productType = data.productType || 'clothing';
+  if (typeof productType !== 'string' || productType.length > 100) {
+    throw new Error('Product type must be a string (max 100 characters)');
+  }
+
+  const productDescription = data.productDescription || '';
+  if (typeof productDescription !== 'string' || productDescription.length > 1000) {
+    throw new Error('Product description must be a string (max 1000 characters)');
+  }
+
+  return { productName: data.productName, productType, productDescription };
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { productName, productType, productDescription } = await req.json();
+    const requestData = await req.json();
+    const { productName, productType, productDescription } = validateInput(requestData);
+    
     const GOOGLE_AI_API_KEY = Deno.env.get('GOOGLE_AI_API_KEY');
 
     if (!GOOGLE_AI_API_KEY) {
@@ -66,9 +95,12 @@ serve(async (req) => {
     );
   } catch (error) {
     console.error('Error in gemini-virtual-tryon:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const statusCode = errorMessage.includes('must be') || errorMessage.includes('Invalid') ? 400 : 500;
+    
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }),
-      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      JSON.stringify({ error: errorMessage }),
+      { status: statusCode, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }
 });

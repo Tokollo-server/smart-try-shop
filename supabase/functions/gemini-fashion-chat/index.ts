@@ -5,13 +5,58 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Input validation
+interface Message {
+  role: string;
+  content: string;
+}
+
+function validateInput(data: any): { message: string; conversationHistory?: Message[] } {
+  if (!data || typeof data !== 'object') {
+    throw new Error('Invalid request body');
+  }
+
+  if (!data.message || typeof data.message !== 'string') {
+    throw new Error('Message is required and must be a string');
+  }
+
+  if (data.message.length === 0 || data.message.length > 2000) {
+    throw new Error('Message must be between 1 and 2000 characters');
+  }
+
+  const conversationHistory = data.conversationHistory || [];
+  if (!Array.isArray(conversationHistory)) {
+    throw new Error('Conversation history must be an array');
+  }
+
+  if (conversationHistory.length > 50) {
+    throw new Error('Conversation history too long (max 50 messages)');
+  }
+
+  for (const msg of conversationHistory) {
+    if (!msg.role || !msg.content) {
+      throw new Error('Invalid message format in conversation history');
+    }
+    if (!['user', 'assistant', 'model'].includes(msg.role)) {
+      throw new Error('Invalid message role');
+    }
+    if (typeof msg.content !== 'string' || msg.content.length > 2000) {
+      throw new Error('Message content must be a string (max 2000 characters)');
+    }
+  }
+
+  return { message: data.message, conversationHistory };
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { message, conversationHistory } = await req.json();
+    const requestData = await req.json();
+    const { message, conversationHistory } = validateInput(requestData);
+    
     const GOOGLE_AI_API_KEY = Deno.env.get('GOOGLE_AI_API_KEY');
 
     if (!GOOGLE_AI_API_KEY) {
@@ -29,7 +74,7 @@ serve(async (req) => {
 
     const messages = [
       { role: 'user', parts: [{ text: systemPrompt }] },
-      ...(conversationHistory || []).map((msg: any) => ({
+      ...(conversationHistory || []).map((msg: Message) => ({
         role: msg.role === 'user' ? 'user' : 'model',
         parts: [{ text: msg.content }]
       })),
@@ -70,9 +115,12 @@ serve(async (req) => {
     );
   } catch (error) {
     console.error('Error in gemini-fashion-chat:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const statusCode = errorMessage.includes('must be') || errorMessage.includes('Invalid') ? 400 : 500;
+    
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }),
-      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      JSON.stringify({ error: errorMessage }),
+      { status: statusCode, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }
 });

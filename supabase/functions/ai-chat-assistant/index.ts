@@ -5,13 +5,53 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Input validation
+interface Message {
+  role: string;
+  content: string;
+}
+
+function validateInput(data: any): { messages: Message[] } {
+  if (!data || typeof data !== 'object') {
+    throw new Error('Invalid request body');
+  }
+
+  if (!data.messages || !Array.isArray(data.messages)) {
+    throw new Error('Messages must be an array');
+  }
+
+  if (data.messages.length === 0) {
+    throw new Error('Messages array cannot be empty');
+  }
+
+  if (data.messages.length > 50) {
+    throw new Error('Too many messages (max 50)');
+  }
+
+  for (const msg of data.messages) {
+    if (!msg.role || !msg.content) {
+      throw new Error('Invalid message format');
+    }
+    if (!['user', 'assistant', 'system'].includes(msg.role)) {
+      throw new Error('Invalid message role');
+    }
+    if (typeof msg.content !== 'string' || msg.content.length > 2000) {
+      throw new Error('Message content must be a string (max 2000 characters)');
+    }
+  }
+
+  return { messages: data.messages };
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { messages } = await req.json();
+    const requestData = await req.json();
+    const { messages } = validateInput(requestData);
+    
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
 
     if (!LOVABLE_API_KEY) {
@@ -63,9 +103,12 @@ Be friendly, helpful, and concise in your responses.`;
     );
   } catch (error) {
     console.error('Error in ai-chat-assistant:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const statusCode = errorMessage.includes('must be') || errorMessage.includes('Invalid') ? 400 : 500;
+    
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }),
-      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      JSON.stringify({ error: errorMessage }),
+      { status: statusCode, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }
 });

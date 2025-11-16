@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -13,8 +14,12 @@ interface AIInsight {
 }
 
 const Admin = () => {
+  const navigate = useNavigate();
   const [aiInsights, setAiInsights] = useState<AIInsight | null>(null);
   const [loadingInsights, setLoadingInsights] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [loading, setLoading] = useState(true);
   const stats = [
     {
       title: "Total Sales",
@@ -43,8 +48,51 @@ const Admin = () => {
   ];
 
   useEffect(() => {
-    fetchAIInsights();
-  }, []);
+    const checkAuthAndRole = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        if (!session) {
+          toast.error("Please sign in to access the admin dashboard");
+          navigate('/auth');
+          return;
+        }
+
+        setIsAuthenticated(true);
+
+        // Check if user has admin role
+        const { data: roleData, error: roleError } = await supabase
+          .from('user_roles')
+          .select('role')
+          .eq('user_id', session.user.id)
+          .eq('role', 'admin')
+          .maybeSingle();
+
+        if (roleError) {
+          console.error('Error checking admin role:', roleError);
+          toast.error("Error checking permissions");
+          navigate('/');
+          return;
+        }
+
+        if (!roleData) {
+          toast.error("You don't have permission to access the admin dashboard");
+          navigate('/');
+          return;
+        }
+
+        setIsAdmin(true);
+        setLoading(false);
+        fetchAIInsights();
+      } catch (error) {
+        console.error('Auth check error:', error);
+        toast.error("Authentication error");
+        navigate('/auth');
+      }
+    };
+
+    checkAuthAndRole();
+  }, [navigate]);
 
   const fetchAIInsights = async () => {
     setLoadingInsights(true);
@@ -61,6 +109,18 @@ const Admin = () => {
       setLoadingInsights(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-white">Loading...</div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated || !isAdmin) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-black">

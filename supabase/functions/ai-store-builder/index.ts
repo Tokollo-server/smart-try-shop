@@ -5,13 +5,50 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Input validation
+function validateInput(data: any): { storeName: string; niche: string; targetAudience?: string; brandStyle?: string } {
+  if (!data || typeof data !== 'object') {
+    throw new Error('Invalid request body');
+  }
+
+  if (!data.storeName || typeof data.storeName !== 'string') {
+    throw new Error('Store name is required and must be a string');
+  }
+
+  if (data.storeName.length === 0 || data.storeName.length > 200) {
+    throw new Error('Store name must be between 1 and 200 characters');
+  }
+
+  if (!data.niche || typeof data.niche !== 'string') {
+    throw new Error('Niche is required and must be a string');
+  }
+
+  if (data.niche.length === 0 || data.niche.length > 200) {
+    throw new Error('Niche must be between 1 and 200 characters');
+  }
+
+  const targetAudience = data.targetAudience || '';
+  if (typeof targetAudience !== 'string' || targetAudience.length > 500) {
+    throw new Error('Target audience must be a string (max 500 characters)');
+  }
+
+  const brandStyle = data.brandStyle || '';
+  if (typeof brandStyle !== 'string' || brandStyle.length > 500) {
+    throw new Error('Brand style must be a string (max 500 characters)');
+  }
+
+  return { storeName: data.storeName, niche: data.niche, targetAudience, brandStyle };
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { storeName, niche, targetAudience, brandStyle } = await req.json();
+    const requestData = await req.json();
+    const { storeName, niche, targetAudience, brandStyle } = validateInput(requestData);
+    
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
 
     if (!LOVABLE_API_KEY) {
@@ -66,9 +103,12 @@ Provide:
     );
   } catch (error) {
     console.error('Error in ai-store-builder:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const statusCode = errorMessage.includes('must be') || errorMessage.includes('Invalid') ? 400 : 500;
+    
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }),
-      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      JSON.stringify({ error: errorMessage }),
+      { status: statusCode, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }
 });

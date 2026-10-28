@@ -10,6 +10,7 @@ import AIBuilder from "./pages/AIBuilder";
 import AIAssistant from "./pages/AIAssistant";
 import Admin from "./pages/Admin";
 import Auth from "./pages/Auth";
+import ResetPassword from "./pages/ResetPassword";
 import ImageGenerator from "./pages/ImageGenerator";
 import NotFound from "./pages/NotFound";
 import { SmartStylistChat } from "@/components/SmartStylistChat";
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/products" element={<CatalogWithSort />} />
             <Route path="/product/:handle" element={<Product />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/ai-builder" element={<AIBuilder />} />
             <Route path="/ai-assistant" element={<AIAssistant />} />
             <Route path="/image-generator" element={<ImageGenerator />} />

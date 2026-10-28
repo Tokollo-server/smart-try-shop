@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { formatPrice } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -55,7 +56,7 @@ export const CartDrawer = () => {
       
       <SheetContent className="w-full sm:max-w-lg flex flex-col h-full bg-background">
         <SheetHeader className="flex-shrink-0">
-          <SheetTitle className="font-display text-2xl font-normal">Your Bag</SheetTitle>
+          <SheetTitle className="text-2xl font-bold tracking-tight">Your Bag</SheetTitle>
           <SheetDescription>
             {totalItems === 0 ? "Your cart is empty" : `${totalItems} item${totalItems !== 1 ? 's' : ''} in your cart`}
           </SheetDescription>
@@ -88,10 +89,10 @@ export const CartDrawer = () => {
                       <div className="flex-1 min-w-0">
                         <h4 className="font-medium truncate">{item.product.node.title}</h4>
                         <p className="text-sm text-muted-foreground">
-                          {item.selectedOptions.map(option => option.value).join(' • ')}
+                          {item.selectedOptions.map(option => option.value).join(' / ')}
                         </p>
                         <p className="mt-1 text-sm font-medium">
-                          {item.price.currencyCode} {parseFloat(item.price.amount).toFixed(2)}
+                          {formatPrice(item.price.amount, item.price.currencyCode)}
                         </p>
                       </div>
                       
@@ -132,15 +133,15 @@ export const CartDrawer = () => {
               
               <div className="flex-shrink-0 space-y-4 pt-4 border-t bg-background">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm uppercase tracking-[0.15em] text-muted-foreground">Subtotal</span>
-                  <span className="font-display text-2xl">
-                    {items[0]?.price.currencyCode || 'USD'} {totalPrice.toFixed(2)}
+                  <span className="text-sm text-muted-foreground">Subtotal</span>
+                  <span className="font-bold tracking-tight text-2xl">
+                    {formatPrice(totalPrice, items[0]?.price.currencyCode)}
                   </span>
                 </div>
                 
                 <Button 
                   onClick={handleCheckout}
-                  className="w-full h-12 uppercase tracking-[0.15em] text-xs" 
+                  className="w-full h-12 text-xs" 
                   size="lg"
                   disabled={items.length === 0 || isLoading}
                 >

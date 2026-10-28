@@ -10,18 +10,18 @@ export const ShippingProgressBar = () => {
   const remaining = Math.max(shippingThreshold - totalPrice, 0);
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-background/95 backdrop-blur animate-in slide-in-from-bottom duration-500">
+    <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-background">
       <div className="container py-2.5">
         <div className="flex items-center gap-3">
-          <Truck className="h-4 w-4 flex-shrink-0 text-accent" />
+          <Truck className="h-4 w-4 flex-shrink-0 " />
           <div className="flex-1">
             <div className="mb-1.5 flex items-center justify-between">
-              <span className="text-[11px] font-medium uppercase tracking-[0.1em] sm:tracking-[0.15em]">
+              <span className="text-xs font-semibold">
                 {progress >= 100 
-                  ? "Free shipping unlocked" 
-                  : `Add $${remaining.toFixed(2)} more for free shipping`}
+                  ? "You qualify for free delivery" 
+                  : `Spend $${remaining.toFixed(2)} more for free delivery`}
               </span>
-              <span className="hidden text-[11px] text-muted-foreground sm:inline">${totalPrice.toFixed(2)} / $29.00</span>
+              <span className="hidden text-xs text-muted-foreground sm:inline">${totalPrice.toFixed(2)} / $29.00</span>
             </div>
             <div className="relative h-1 overflow-hidden rounded-full bg-secondary">
               <div 

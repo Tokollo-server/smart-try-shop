@@ -3,7 +3,7 @@ import { Navbar } from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { MessageCircle, Send, Loader2, Bot } from "lucide-react";
+import { Send, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -16,7 +16,7 @@ const AIAssistant = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Hi! I'm your AI shopping assistant. How can I help you today?"
+      content: "Hi! How can I help you today? Ask me about products, sizing, orders or what to wear."
     }
   ]);
   const [input, setInput] = useState("");
@@ -70,11 +70,7 @@ const AIAssistant = () => {
       
       <div className="container flex-1 flex flex-col py-12 max-w-4xl">
         <div className="text-center mb-6">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 text-accent text-xs font-medium uppercase tracking-[0.15em] mb-6">
-            <MessageCircle className="h-4 w-4" />
-            <span>24/7 AI Shopping Assistant</span>
-          </div>
-          <h1 className="font-display text-4xl md:text-5xl mb-3">Chat with Our AI Assistant</h1>
+                    <h1 className="font-bold tracking-tight text-4xl md:text-5xl mb-3">Style Assistant</h1>
           <p className="text-muted-foreground">
             Get instant help with product recommendations, sizing, orders, and more
           </p>
@@ -96,8 +92,7 @@ const AIAssistant = () => {
                 >
                   {message.role === "assistant" && (
                     <div className="flex items-center gap-2 mb-2">
-                      <Bot className="h-4 w-4" />
-                      <span className="text-xs font-semibold">AI Assistant</span>
+                                            <span className="text-xs font-semibold">Style Assistant</span>
                     </div>
                   )}
                   <p className="text-sm">{message.content}</p>

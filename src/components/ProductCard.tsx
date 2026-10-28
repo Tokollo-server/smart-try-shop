@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
-import { Plus, ShoppingBag } from "lucide-react";
+import { ShoppingBag, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 import { ShopifyProduct } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
+import { formatPrice } from "@/lib/utils";
 
 export const ProductCard = ({ product }: { product: ShopifyProduct }) => {
   const addItem = useCartStore(state => state.addItem);
@@ -26,26 +27,24 @@ export const ProductCard = ({ product }: { product: ShopifyProduct }) => {
   return <div className="group">
       <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
         <Link to={`/product/${product.node.handle}`} aria-label={product.node.title}>
-          {image ? <img src={image.url} alt={image.altText || product.node.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" /> : <div className="flex h-full w-full items-center justify-center">
+          {image ? <img src={image.url} alt={image.altText || product.node.title} loading="lazy" className="h-full w-full object-cover" /> : <div className="flex h-full w-full items-center justify-center">
               <ShoppingBag className="h-12 w-12 text-muted-foreground/50" />
             </div>}
         </Link>
-        {variant && <button type="button" onClick={handleAddToCart} className="absolute inset-x-3 bottom-3 flex items-center justify-center gap-2 bg-background/95 py-3 text-xs font-medium uppercase tracking-[0.15em] text-foreground opacity-100 shadow-sm transition-all duration-300 hover:bg-primary hover:text-primary-foreground md:translate-y-2 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100">
-            <Plus className="h-3.5 w-3.5" />
-            Quick add
+        {variant && <button type="button" onClick={handleAddToCart} aria-label={`Add ${product.node.title} to cart`} className="absolute bottom-2 right-2 flex h-10 w-10 items-center justify-center rounded-full bg-white text-black shadow-sm transition-colors hover:bg-black hover:text-white md:opacity-0 md:group-hover:opacity-100">
+            <ShoppingCart className="h-4 w-4" />
           </button>}
       </div>
-      <Link to={`/product/${product.node.handle}`} className="mt-4 block">
-        <h3 className="line-clamp-1 text-sm font-medium">{product.node.title}</h3>
-        <p className="mt-1 text-sm text-muted-foreground">
-          {price.currencyCode} {parseFloat(price.amount).toFixed(2)}
-        </p>
+      <Link to={`/product/${product.node.handle}`} className="mt-2 block">
+        <h3 className="line-clamp-2 text-sm font-semibold leading-snug">{product.node.title}</h3>
+        <p className="mt-1 text-sm text-muted-foreground">Smart Closet</p>
+        <p className="mt-1 text-sm font-bold">{formatPrice(price.amount, price.currencyCode)}</p>
       </Link>
     </div>;
 };
 
 export const ProductCardSkeleton = () => <div className="animate-pulse">
     <div className="aspect-[3/4] bg-secondary" />
-    <div className="mt-4 h-4 w-3/4 bg-secondary" />
+    <div className="mt-2 h-4 w-3/4 bg-secondary" />
     <div className="mt-2 h-4 w-1/3 bg-secondary" />
   </div>;

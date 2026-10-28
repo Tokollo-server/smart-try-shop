@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { MessageCircle, Send, X, Loader2, Sparkles } from "lucide-react";
+import { MessageCircle, Send, X, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 interface Message {
@@ -15,7 +15,7 @@ export const SmartStylistChat = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Hi! I'm your Smart Stylist 👗 Ask me anything about fashion, outfits, or styling tips!"
+      content: "Hi! Ask me anything about outfits, sizing or styling tips."
     }
   ]);
   const [input, setInput] = useState("");
@@ -56,7 +56,7 @@ export const SmartStylistChat = () => {
       console.error('Chat error:', error);
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: "I'm having trouble right now. Please try again!" }
+        { role: "assistant", content: "Sorry, something went wrong. Please try again." }
       ]);
     } finally {
       setLoading(false);
@@ -69,8 +69,8 @@ export const SmartStylistChat = () => {
       {!isOpen && (
         <Button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-20 right-6 h-14 w-14 rounded-full bg-accent text-accent-foreground shadow-lg hover:bg-accent/90 hover:scale-105 transition-transform z-50"
-          aria-label="Open Smart Stylist chat"
+          className="fixed bottom-20 right-6 h-14 w-14 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 z-50"
+          aria-label="Open chat"
           size="icon"
         >
           <MessageCircle className="h-6 w-6" />
@@ -83,8 +83,8 @@ export const SmartStylistChat = () => {
           {/* Header */}
           <div className="flex items-center justify-between p-4 bg-primary">
             <div className="flex items-center gap-2 text-primary-foreground">
-              <Sparkles className="h-5 w-5 text-accent" />
-              <h3 className="font-display text-lg text-primary-foreground">Smart Stylist</h3>
+              <MessageCircle className="h-5 w-5" />
+              <h3 className="text-base font-semibold text-primary-foreground">Style Assistant</h3>
             </div>
             <Button
               variant="ghost"
@@ -104,7 +104,7 @@ export const SmartStylistChat = () => {
                 className={`flex ${message.role === "user" ? "justify-end" : "justify-start"} animate-fade-in`}
               >
                 <div
-                  className={`max-w-[80%] rounded-2xl px-4 py-3 ${
+                  className={`max-w-[80%] rounded-lg px-4 py-3 ${
                     message.role === "user"
                       ? "bg-primary text-primary-foreground"
                       : "bg-secondary"

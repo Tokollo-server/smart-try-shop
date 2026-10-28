@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2, Sparkles, Store } from "lucide-react";
+import { Loader2, Store } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -34,7 +34,7 @@ const AIBuilder = () => {
       if (error) throw error;
 
       toast.success("Store configuration generated!", {
-        description: "Your AI-powered store setup is ready"
+        description: "Your store setup is ready"
       });
     } catch (error) {
       console.error('Error generating store:', error);
@@ -53,24 +53,20 @@ const AIBuilder = () => {
       <div className="container py-16 flex-1">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 text-accent text-xs font-medium uppercase tracking-[0.15em] mb-6">
-              <Sparkles className="h-4 w-4" />
-              <span>AI Store Builder</span>
-            </div>
-            <h1 className="font-display text-4xl md:text-5xl mb-4">AI-Powered Store Configuration</h1>
+                        <h1 className="font-bold tracking-tight text-4xl md:text-5xl mb-4">Store Builder</h1>
             <p className="text-muted-foreground text-lg">
-              Let AI create a complete store design, product layout, and theme suggestions
+              Create a complete store design, product layout, and theme suggestions
             </p>
           </div>
 
           <Card className="shadow-none">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 font-display text-2xl font-normal">
+              <CardTitle className="flex items-center gap-2 text-2xl font-bold tracking-tight">
                 <Store className="h-5 w-5" />
                 Store Information
               </CardTitle>
               <CardDescription>
-                Tell us about your store and our AI will do the rest
+                Tell us about your store and we will put together a setup for you
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -116,7 +112,7 @@ const AIBuilder = () => {
               </div>
 
               <Button
-                className="w-full h-12 rounded-full text-xs uppercase tracking-[0.15em]"
+                className="w-full h-12 rounded-lg text-sm font-semibold"
                 size="lg"
                 onClick={handleGenerate}
                 disabled={loading}
@@ -128,8 +124,7 @@ const AIBuilder = () => {
                   </>
                 ) : (
                   <>
-                    <Sparkles className="mr-2 h-4 w-4" />
-                    Generate Store
+                                        Generate Store
                   </>
                 )}
               </Button>
@@ -137,13 +132,13 @@ const AIBuilder = () => {
           </Card>
 
           <div className="mt-8 p-6 bg-secondary rounded-lg">
-            <h3 className="font-semibold mb-3">What AI Will Generate:</h3>
+            <h3 className="font-semibold mb-3">What you'll get</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>✓ Complete store design and color scheme</li>
-              <li>✓ Product categories and layout recommendations</li>
-              <li>✓ Brand name and logo suggestions</li>
-              <li>✓ Navigation structure and page hierarchy</li>
-              <li>✓ Typography and visual style guide</li>
+              <li>Complete store design and color scheme</li>
+              <li>Product categories and layout recommendations</li>
+              <li>Brand name and logo suggestions</li>
+              <li>Navigation structure and page hierarchy</li>
+              <li>Typography and visual style guide</li>
             </ul>
           </div>
         </div>

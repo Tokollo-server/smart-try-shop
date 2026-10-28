@@ -3,70 +3,65 @@ import { getProducts } from "@/lib/shopify";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ProductCard } from "@/components/ProductCard";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, ArrowUpRight, Image, MessageCircle, Shirt, Sparkles } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { ArrowRight, RotateCcw, ShieldCheck, Truck } from "lucide-react";
+import { Link } from "react-router-dom";
+import { cn } from "@/lib/utils";
 import heroImage from "@/assets/hero-closet.jpg";
+
+const perks = [
+  { icon: Truck, title: "Free delivery", text: "On orders over $29" },
+  { icon: RotateCcw, title: "Easy returns", text: "Changed your mind? No problem" },
+  { icon: ShieldCheck, title: "Secure checkout", text: "Pay safely with Shopify" },
+];
 
 const categories = [{
   name: "Women",
-  image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&q=80",
-  link: "/catalog?category=women"
+  image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1200&q=80",
+  link: "/catalog?category=women",
+  className: "md:col-span-2"
 }, {
   name: "Men",
   image: "https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?w=800&q=80",
-  link: "/catalog?category=men"
+  link: "/catalog?category=men",
+  className: ""
 }, {
   name: "Kids",
   image: "https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?w=800&q=80",
-  link: "/catalog?category=kids"
+  link: "/catalog?category=kids",
+  className: ""
 }, {
   name: "Accessories",
-  image: "https://images.unsplash.com/photo-1492707892479-7bc8d5a4ee93?w=800&q=80",
-  link: "/catalog?category=accessories"
+  image: "https://images.unsplash.com/photo-1492707892479-7bc8d5a4ee93?w=1200&q=80",
+  link: "/catalog?category=accessories",
+  className: "md:col-span-2"
 }];
 
 const deals = [{
-  title: "Summer Collection",
-  description: "Buy 1 Get 1 Free on all summer wear",
+  title: "Summer collection",
+  description: "Buy 1 get 1 free on all summer wear",
   image: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800&q=80",
-  tag: "50% OFF"
+  tag: "50% off"
 }, {
-  title: "Accessories Deal",
-  description: "BOGO on all bags and accessories",
+  title: "Bags & accessories",
+  description: "Buy one, get one free on bags",
   image: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=800&q=80",
   tag: "BOGO"
 }, {
-  title: "Footwear Bonanza",
+  title: "Footwear",
   description: "Buy one pair, get another free",
   image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800&q=80",
-  tag: "2 FOR 1"
+  tag: "2 for 1"
 }];
 
-const aiFeatures = [{
-  icon: MessageCircle,
-  title: "AI Shopping Assistant",
-  description: "Ask about sizing, orders or what to wear and get instant answers, 24/7.",
-  link: "/ai-assistant"
-}, {
-  icon: Shirt,
-  title: "Virtual Try-On Advice",
-  description: "Open any product and get personalised styling advice before you buy.",
-  link: "/catalog"
-}, {
-  icon: Image,
-  title: "AI Image Generator",
-  description: "Turn an outfit idea into an image to visualise your next look.",
-  link: "/image-generator"
-}];
-
-const perks = ["Free shipping over $29", "AI virtual try-on", "Secure Shopify checkout", "New arrivals weekly", "Smart Stylist chat"];
+const SectionHeader = ({ title, to }: { title: string; to: string }) => <div className="mb-4 flex items-end justify-between gap-4">
+    <h2 className="text-xl font-bold tracking-tight md:text-2xl">{title}</h2>
+    <Link to={to} className="flex items-center gap-1 text-sm font-semibold hover:underline">
+      View all <ArrowRight className="h-4 w-4" />
+    </Link>
+  </div>;
 
 const Index = () => {
-  const navigate = useNavigate();
-  const {
-    data: products
-  } = useQuery({
+  const { data: products } = useQuery({
     queryKey: ['products'],
     queryFn: () => getProducts(8)
   });
@@ -74,139 +69,84 @@ const Index = () => {
   return <div className="min-h-screen flex flex-col">
       <Navbar />
 
-      {/* Hero */}
-      <section className="grid lg:grid-cols-2">
-        <div className="flex items-center bg-secondary px-6 py-16 sm:px-12 lg:px-16 lg:py-24 xl:px-24">
-          <div className="max-w-xl animate-fade-in-up">
-            <p className="eyebrow mb-6">New season &middot; Styled by AI</p>
-            <h1 className="font-display text-5xl font-light leading-[1.05] tracking-tight sm:text-6xl xl:text-7xl">
-              Dress smarter,<br /><em className="font-normal text-accent">not harder.</em>
-            </h1>
-            <p className="mt-6 max-w-md text-lg leading-relaxed text-muted-foreground">
-              Discover the latest fashion trends for everyone, with AI styling advice and virtual try-on on every piece.
-            </p>
-            <div className="mt-10 flex flex-wrap gap-3">
-              <Button size="lg" className="h-12 rounded-full px-8 text-xs uppercase tracking-[0.15em]" onClick={() => navigate('/catalog')}>
-                Shop the collection
-              </Button>
-              <Button size="lg" variant="outline" className="h-12 rounded-full border-foreground bg-transparent px-8 text-xs uppercase tracking-[0.15em] hover:bg-foreground hover:text-background" onClick={() => navigate('/ai-assistant')}>
-                <Sparkles className="h-4 w-4" />
-                Ask our AI stylist
-              </Button>
+      <main className="container flex-1 space-y-10 py-4 md:space-y-14 md:py-6">
+        <div className="space-y-4 md:space-y-6">
+          <ul className="grid gap-3 sm:grid-cols-3">
+            {perks.map((perk, idx) => <li key={perk.title} className={cn("flex items-center gap-4 rounded-md bg-promo px-5 py-3", idx > 0 && "hidden sm:flex")}>
+                <perk.icon className="h-6 w-6 flex-shrink-0" />
+                <div>
+                  <p className="text-sm font-bold md:text-base">{perk.title}</p>
+                  <p className="text-xs">{perk.text}</p>
+                </div>
+              </li>)}
+          </ul>
+
+          <section className="rounded-md bg-black p-3 md:p-4" aria-label="Featured">
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
+              <Link to="/catalog" className="flex flex-col justify-center rounded-md bg-white p-5 md:p-10">
+                <h1 className="text-[28px] font-black uppercase leading-[0.85] tracking-tight sm:text-5xl lg:text-7xl">
+                  New<br />season
+                </h1>
+                <span className="mt-4 inline-flex w-fit items-center gap-1.5 whitespace-nowrap rounded-md bg-black px-3 py-2 text-[11px] font-bold uppercase text-white md:mt-6 md:px-4 md:text-sm">
+                  Shop now <ArrowRight className="h-4 w-4" />
+                </span>
+              </Link>
+              <Link to="/catalog?category=deals" className="flex flex-col justify-center rounded-md bg-accent p-5 text-white md:p-10">
+                <span className="text-xl font-black uppercase leading-none md:text-4xl">Up to</span>
+                <span className="text-5xl font-black uppercase leading-[0.9] lg:text-8xl">50%<br />off</span>
+                <span className="mt-3 text-xs font-semibold md:text-sm">Selected summer styles</span>
+              </Link>
+              <Link to="/catalog" className="col-span-2 min-h-[220px] overflow-hidden rounded-md md:col-span-1 md:min-h-[320px]">
+                <img src={heroImage} alt="Inside the Smart Closet store" className="h-full w-full object-cover" />
+              </Link>
             </div>
-          </div>
+          </section>
         </div>
-        <div className="relative min-h-[420px] lg:min-h-[640px]">
-          <img src={heroImage} alt="Smart Closet store" className="absolute inset-0 h-full w-full object-cover" />
-          <div className="absolute bottom-6 left-6 right-6 max-w-xs bg-background/95 p-5 backdrop-blur sm:right-auto">
-            <p className="eyebrow mb-2">Smart Stylist</p>
-            <p className="font-display text-lg leading-snug">"Pair the denim jacket with white sneakers for an easy weekend look."</p>
-          </div>
-        </div>
-      </section>
 
-      {/* Perks marquee */}
-      <section className="overflow-hidden border-b border-border py-4" aria-label="Store perks">
-        <div className="flex w-max animate-marquee">
-          {[...perks, ...perks, ...perks, ...perks].map((perk, idx) => <span key={idx} className="flex items-center gap-8 px-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
-              {perk}
-              <span className="text-accent">&#10022;</span>
-            </span>)}
-        </div>
-      </section>
-
-      {/* Categories */}
-      <section className="container py-20 md:py-28">
-        <div className="mb-10 flex items-end justify-between gap-4">
-          <div>
-            <p className="eyebrow mb-3">Collections</p>
-            <h2 className="font-display text-4xl md:text-5xl">Shop by category</h2>
-          </div>
-          <Link to="/catalog" className="hidden items-center gap-2 text-sm font-medium underline-offset-4 hover:underline sm:flex">
-            View all <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-        <div className="grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-4">
-          {categories.map(category => <Link key={category.name} to={category.link} className="group">
-              <div className="aspect-[3/4] overflow-hidden bg-secondary">
-                <img src={category.image} alt={category.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-              </div>
-              <div className="mt-4 flex items-center justify-between">
-                <h3 className="font-display text-xl md:text-2xl">{category.name}</h3>
-                <ArrowUpRight className="h-5 w-5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-              </div>
+        <section aria-label="Shop by department" className="grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-4">
+          {categories.map(category => <Link key={category.name} to={category.link} className={cn("group relative h-72 overflow-hidden rounded-md bg-secondary md:h-96", category.className)}>
+              <img src={category.image} alt={category.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+              <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/50 to-transparent" />
+              <span className="absolute bottom-5 left-5 flex items-center gap-4 text-4xl font-bold tracking-tight text-white md:bottom-8 md:left-8 md:text-5xl">
+                {category.name}
+                <ArrowRight className="h-8 w-8 stroke-[1.5] transition-transform group-hover:translate-x-1" />
+              </span>
             </Link>)}
-        </div>
-      </section>
+        </section>
 
-      {/* New arrivals */}
-      {products && products.length > 0 && <section className="container pb-20 md:pb-28">
-          <div className="mb-10 flex items-end justify-between gap-4">
-            <div>
-              <p className="eyebrow mb-3">Just landed</p>
-              <h2 className="font-display text-4xl md:text-5xl">New arrivals</h2>
+        {products && products.length > 0 && <section>
+            <SectionHeader title="New in" to="/catalog" />
+            <div className="grid grid-cols-2 gap-x-3 gap-y-8 md:grid-cols-4">
+              {products.map(product => <ProductCard key={product.node.id} product={product} />)}
             </div>
-            <Link to="/catalog" className="flex items-center gap-2 text-sm font-medium underline-offset-4 hover:underline">
-              Shop all <ArrowRight className="h-4 w-4" />
+          </section>}
+
+        <section className="grid overflow-hidden rounded-md bg-black text-white md:grid-cols-2">
+          <div className="flex flex-col justify-center p-8 md:p-12">
+            <span className="mb-3 w-fit rounded-sm bg-white px-1.5 py-0.5 text-[10px] font-bold uppercase text-black">Style Assistant</span>
+            <h2 className="text-3xl font-bold tracking-tight text-white md:text-4xl">Not sure what to wear?</h2>
+            <p className="mt-2 text-sm text-white/80">Get outfit ideas, sizing help and answers about your order.</p>
+            <Link to="/ai-assistant" className="mt-6 inline-flex w-fit items-center gap-2 bg-white px-5 py-3 text-sm font-semibold text-black hover:bg-white/90">
+              Find out more <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-          <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:gap-x-6 lg:grid-cols-4">
-            {products.map(product => <ProductCard key={product.node.id} product={product} />)}
+          <img src="https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?w=1200&q=80" alt="" className="h-56 w-full object-cover md:h-full" />
+        </section>
+
+        <section>
+          <SectionHeader title="Shop deals" to="/catalog?category=deals" />
+          <div className="grid gap-4 md:grid-cols-3">
+            {deals.map(deal => <Link key={deal.title} to="/catalog?category=deals" className="group">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-md bg-secondary">
+                  <img src={deal.image} alt={deal.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+                  <span className="absolute bottom-3 left-3 rounded-sm bg-black px-2 py-1 text-xs font-bold uppercase text-white">{deal.tag}</span>
+                </div>
+                <h3 className="mt-3 text-base font-bold">{deal.title}</h3>
+                <p className="text-sm text-muted-foreground">{deal.description}</p>
+              </Link>)}
           </div>
-        </section>}
-
-      {/* AI features */}
-      <section className="bg-primary text-primary-foreground">
-        <div className="container py-20 md:py-28">
-          <div className="grid gap-12 lg:grid-cols-12">
-            <div className="lg:col-span-4">
-              <p className="mb-3 text-xs font-medium uppercase tracking-[0.2em] text-primary-foreground/60">Smart Closet AI</p>
-              <h2 className="font-display text-4xl text-primary-foreground md:text-5xl">Your personal stylist, built in.</h2>
-              <p className="mt-6 text-primary-foreground/70">
-                Smart Closet uses AI to help you find, style and try on pieces before they ever reach your door.
-              </p>
-            </div>
-            <div className="grid gap-px overflow-hidden bg-primary-foreground/15 sm:grid-cols-3 lg:col-span-8">
-              {aiFeatures.map(feature => <Link key={feature.title} to={feature.link} className="group flex flex-col bg-primary p-8 transition-colors hover:bg-primary-foreground/5">
-                  <feature.icon className="h-6 w-6 text-accent" />
-                  <h3 className="mt-8 font-display text-2xl text-primary-foreground">{feature.title}</h3>
-                  <p className="mt-3 flex-1 text-sm leading-relaxed text-primary-foreground/70">{feature.description}</p>
-                  <span className="mt-8 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.15em]">
-                    Explore <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </span>
-                </Link>)}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Deals */}
-      <section className="container py-20 md:py-28">
-        <div className="mb-12 text-center">
-          <p className="eyebrow mb-3 text-accent">Limited time offer</p>
-          <h2 className="font-display text-4xl md:text-5xl">Shop deals</h2>
-          <p className="mt-4 text-muted-foreground">Buy One, Get One Free on Selected Items</p>
-        </div>
-
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {deals.map(deal => <Link key={deal.title} to="/catalog" className="group">
-              <div className="relative aspect-[4/5] overflow-hidden bg-secondary">
-                <img src={deal.image} alt={deal.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                <span className="absolute left-4 top-4 bg-accent px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.15em] text-accent-foreground">
-                  {deal.tag}
-                </span>
-              </div>
-              <h3 className="mt-5 font-display text-2xl">{deal.title}</h3>
-              <p className="mt-1 text-sm text-muted-foreground">{deal.description}</p>
-            </Link>)}
-        </div>
-
-        <div className="mt-14 text-center">
-          <Button size="lg" variant="outline" className="h-12 rounded-full border-foreground bg-transparent px-10 text-xs uppercase tracking-[0.15em] hover:bg-foreground hover:text-background" onClick={() => navigate('/catalog')}>
-            Shop all deals
-          </Button>
-        </div>
-      </section>
+        </section>
+      </main>
 
       <Footer />
     </div>;

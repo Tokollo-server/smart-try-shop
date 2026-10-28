@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BarChart3, Package, Users, TrendingUp, DollarSign, ShoppingCart, Sparkles, Loader2 } from "lucide-react";
+import { BarChart3, Package, Users, TrendingUp, DollarSign, ShoppingCart, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -128,7 +128,7 @@ const Admin = () => {
       
       <div className="container py-8">
         <div className="mb-8">
-          <h1 className="font-display text-4xl md:text-5xl mb-2">Admin Dashboard</h1>
+          <h1 className="font-bold tracking-tight text-4xl md:text-5xl mb-2">Admin Dashboard</h1>
           <p className="text-muted-foreground">Manage your store and track performance</p>
         </div>
 
@@ -136,8 +136,8 @@ const Admin = () => {
         <Card className="mb-8 bg-secondary border-0 shadow-none">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-accent" />
-              AI-Powered Insights
+              <TrendingUp className="h-5 w-5" />
+              Insights
             </CardTitle>
             <CardDescription className="text-muted-foreground">
               Real-time analysis of your store performance
@@ -304,7 +304,7 @@ const Admin = () => {
           <TabsContent value="analytics">
             <Card>
               <CardHeader>
-                <CardTitle>AI-Powered Analytics</CardTitle>
+                <CardTitle>Analytics</CardTitle>
                 <CardDescription className="text-muted-foreground">Insights and predictions for your store</CardDescription>
               </CardHeader>
               <CardContent>

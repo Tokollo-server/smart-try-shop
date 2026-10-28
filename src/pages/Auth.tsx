@@ -69,15 +69,15 @@ export default function Auth() {
           <img src={heroImage} alt="Smart Closet store" className="absolute inset-0 h-full w-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
           <div className="absolute bottom-12 left-12 right-12 text-white">
-            <p className="mb-3 text-xs font-medium uppercase tracking-[0.2em] text-white/80">Members get more</p>
-            <p className="font-display text-4xl leading-tight text-white">Save your favourites, track orders and unlock AI styling tools.</p>
+            <p className="mb-3 text-sm font-semibold text-white/80">Members get more</p>
+            <p className="font-bold tracking-tight text-4xl leading-tight text-white">Save your favourites, track orders and check out faster.</p>
           </div>
         </div>
 
         <div className="flex items-center justify-center px-6 py-16">
           <div className="w-full max-w-md">
             <p className="eyebrow mb-3">My account</p>
-            <h1 className="font-display text-4xl md:text-5xl">Welcome</h1>
+            <h1 className="font-bold tracking-tight text-4xl md:text-5xl">Welcome</h1>
             <p className="mt-3 mb-10 text-muted-foreground">
               Sign in or create an account to continue shopping
             </p>
@@ -112,7 +112,7 @@ export default function Auth() {
                   </div>
                   <Button
                     type="submit"
-                    className="w-full h-12 rounded-full text-xs uppercase tracking-[0.15em]"
+                    className="w-full h-12 rounded-lg text-sm font-semibold"
                     disabled={loading}
                   >
                     {loading ? "Signing in..." : "Sign In"}
@@ -146,7 +146,7 @@ export default function Auth() {
                   </div>
                   <Button
                     type="submit"
-                    className="w-full h-12 rounded-full text-xs uppercase tracking-[0.15em]"
+                    className="w-full h-12 rounded-lg text-sm font-semibold"
                     disabled={loading}
                   >
                     {loading ? "Creating account..." : "Create Account"}

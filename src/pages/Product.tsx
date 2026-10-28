@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { useParams, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { getProductByHandle } from "@/lib/shopify";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ShoppingBag, ArrowLeft, Sparkles, Truck, ShieldCheck, RotateCcw } from "lucide-react";
+import { ShoppingBag, ShoppingCart, ArrowLeft, ChevronRight, Package, Shirt, ShieldCheck, RotateCcw } from "lucide-react";
+import { formatPrice } from "@/lib/utils";
 import { useState } from "react";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
@@ -32,7 +33,7 @@ const Product = () => {
         <Navbar />
         <main className="container py-12">
           <div className="grid md:grid-cols-2 gap-12">
-            <Skeleton className="aspect-[4/5] rounded-none bg-secondary" />
+            <Skeleton className="aspect-[3/4] rounded-none bg-secondary" />
             <div className="space-y-6">
               <Skeleton className="h-12 w-3/4" />
               <Skeleton className="h-24 w-full" />
@@ -50,8 +51,8 @@ const Product = () => {
       <div className="min-h-screen bg-background">
         <Navbar />
         <main className="container py-24 text-center">
-          <h1 className="font-display text-4xl mb-6">Product not found</h1>
-          <Button className="rounded-full px-8" onClick={() => navigate('/catalog')}>
+          <h1 className="mb-6 text-3xl font-bold tracking-tight">Product not found</h1>
+          <Button className="px-8" onClick={() => navigate('/catalog')}>
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Catalog
           </Button>
@@ -85,83 +86,74 @@ const Product = () => {
     <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
       
-      <main className="container py-12 flex-1">
-        <button
-          type="button"
-          className="eyebrow mb-8 flex items-center gap-2 hover:text-foreground"
-          onClick={() => navigate('/catalog')}
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to shop
-        </button>
+      <main className="container flex-1 py-6">
+        <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
+          <Link to="/" className="font-semibold text-foreground">smartcloset</Link>
+          <ChevronRight className="h-3 w-3" />
+          <Link to="/catalog" className="hover:text-foreground">Shop</Link>
+          <ChevronRight className="h-3 w-3" />
+          <span className="font-semibold text-foreground">{product.title}</span>
+        </nav>
 
-        <div className="grid md:grid-cols-2 gap-10 lg:gap-16">
-          <div className="space-y-4">
-            <div className="aspect-[4/5] overflow-hidden bg-secondary">
+        <div className="grid gap-8 md:grid-cols-2 lg:gap-14">
+          <div className="space-y-3">
+            <div className="aspect-[3/4] overflow-hidden bg-secondary">
               {images.length > 0 ? (
                 <img
                   src={images[selectedImage].node.url}
                   alt={images[selectedImage].node.altText || product.title}
-                  className="w-full h-full object-cover"
+                  className="h-full w-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center">
+                <div className="flex h-full w-full items-center justify-center">
                   <ShoppingBag className="h-16 w-16 text-muted-foreground/50" />
                 </div>
               )}
             </div>
-            
+
             {images.length > 1 && (
-              <div className="grid grid-cols-4 gap-2">
+              <div className="flex gap-2">
                 {images.map((img, idx) => (
                   <button
                     key={idx}
+                    type="button"
                     onClick={() => setSelectedImage(idx)}
-                    className={`aspect-[4/5] overflow-hidden border transition-all ${
-                      selectedImage === idx ? 'border-foreground' : 'border-transparent opacity-70 hover:opacity-100'
-                    }`}
+                    aria-label={`View image ${idx + 1}`}
+                    className={`h-20 w-16 overflow-hidden border-b-2 ${selectedImage === idx ? 'border-black' : 'border-transparent opacity-70 hover:opacity-100'}`}
                   >
-                    <img
-                      src={img.node.url}
-                      alt={img.node.altText || product.title}
-                      className="w-full h-full object-cover"
-                    />
+                    <img src={img.node.url} alt="" className="h-full w-full object-cover" />
                   </button>
                 ))}
               </div>
             )}
           </div>
 
-          <div className="space-y-8 md:sticky md:top-36 md:self-start">
+          <div className="space-y-6 md:sticky md:top-36 md:self-start">
             <div>
-              <p className="eyebrow mb-3">Smart Closet</p>
-              <h1 className="font-display text-4xl md:text-5xl leading-tight mb-4">{product.title}</h1>
-              <p className="text-xl">
-                {selectedVariant?.price.currencyCode} {parseFloat(selectedVariant?.price.amount || '0').toFixed(2)}
+              <h1 className="text-2xl font-bold leading-tight tracking-tight md:text-3xl">{product.title}</h1>
+              <p className="mt-1 text-sm text-muted-foreground">Smart Closet</p>
+              <p className="mt-4 text-2xl font-bold">
+                {formatPrice(selectedVariant?.price.amount || '0', selectedVariant?.price.currencyCode)}
               </p>
             </div>
 
-            {product.description && (
-              <div>
-                <h2 className="eyebrow mb-3">Description</h2>
-                <p className="leading-relaxed text-muted-foreground">{product.description}</p>
-              </div>
-            )}
-
             {product.options && product.options.length > 0 && (
-              <div className="space-y-4">
+              <div className="space-y-5">
                 {product.options.map((option) => (
                   <div key={option.name}>
-                    <h3 className="eyebrow mb-3">{option.name}</h3>
+                    <div className="mb-3 flex items-center gap-4">
+                      <h2 className="text-base font-semibold">{option.name}</h2>
+                      <div className="h-px flex-1 bg-border" />
+                    </div>
                     <div className="flex flex-wrap gap-2">
                       {option.values.map((value, idx) => (
                         <button
                           type="button"
                           key={value}
-                          className={`min-w-12 rounded-full border px-4 py-2 text-sm transition-colors ${
+                          className={`min-w-12 rounded-sm px-4 py-2 text-sm font-semibold transition-colors ${
                             selectedVariantIndex === idx
-                              ? 'border-foreground bg-foreground text-background'
-                              : 'border-border hover:border-foreground'
+                              ? 'bg-black text-white'
+                              : 'bg-secondary hover:bg-border'
                           }`}
                           onClick={() => setSelectedVariantIndex(idx)}
                         >
@@ -174,38 +166,52 @@ const Product = () => {
               </div>
             )}
 
-            <div className="pt-4 space-y-3">
-              <Button 
-                size="lg" 
-                className="w-full h-14 rounded-full text-xs uppercase tracking-[0.15em]"
+            <div className="flex items-center gap-4 rounded-lg border border-border p-4">
+              <Package className="h-5 w-5 flex-shrink-0" />
+              <div>
+                <p className="text-sm font-semibold">Get it in 2 - 4 working days</p>
+                <p className="text-xs text-muted-foreground">Free delivery on orders over $29</p>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <Button
+                size="lg"
+                className="h-14 w-full rounded-none bg-accent text-base font-semibold text-accent-foreground hover:bg-accent/90"
                 onClick={handleAddToCart}
                 disabled={!selectedVariant?.availableForSale}
               >
-                <ShoppingBag className="mr-2 h-5 w-5" />
-                {selectedVariant?.availableForSale ? 'Add to Cart' : 'Out of Stock'}
+                {selectedVariant?.availableForSale ? 'Add to cart' : 'Out of stock'}
+                <ShoppingCart className="ml-2 h-5 w-5" />
               </Button>
-              
-              <Button 
+
+              <Button
                 variant="outline"
-                size="lg" 
-                className="w-full h-14 rounded-full border-foreground bg-transparent text-xs uppercase tracking-[0.15em] hover:bg-foreground hover:text-background"
+                size="lg"
+                className="h-12 w-full rounded-none border-2 border-accent bg-transparent text-sm font-semibold text-accent hover:bg-accent/5 hover:text-accent"
                 onClick={() => setShowTryOn(true)}
               >
-                <Sparkles className="mr-2 h-5 w-5" />
-                Try it on with AI
+                <Shirt className="mr-2 h-4 w-4" />
+                Get styling advice
               </Button>
             </div>
 
-            <ul className="space-y-3 border-t border-border pt-6 text-sm text-muted-foreground">
-              <li className="flex items-center gap-3"><Truck className="h-4 w-4 text-foreground" /> Free shipping on orders over $29</li>
-              <li className="flex items-center gap-3"><ShieldCheck className="h-4 w-4 text-foreground" /> Secure checkout with Shopify</li>
-              <li className="flex items-center gap-3"><RotateCcw className="h-4 w-4 text-foreground" /> Easy returns</li>
+            {product.description && (
+              <div className="border-t border-border pt-6">
+                <h2 className="mb-2 text-base font-semibold">Product details</h2>
+                <p className="text-sm leading-relaxed">{product.description}</p>
+              </div>
+            )}
+
+            <ul className="space-y-2 border-t border-border pt-6 text-sm">
+              <li className="flex items-center gap-3"><ShieldCheck className="h-4 w-4" /> Secure checkout</li>
+              <li className="flex items-center gap-3"><RotateCcw className="h-4 w-4" /> Easy returns</li>
             </ul>
           </div>
         </div>
 
         {/* AI Outfit Recommendations */}
-        <div className="mt-20 border-t border-border">
+        <div className="mt-16 border-t border-border">
           <AIOutfitRecommendations 
             productName={product.title}
             productType={product.productType || "clothing"}

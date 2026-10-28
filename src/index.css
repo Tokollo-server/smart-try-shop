@@ -8,27 +8,28 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 36 33% 97%;
-    --foreground: 24 10% 10%;
-    --card: 36 33% 99%;
-    --card-foreground: 24 10% 10%;
-    --popover: 36 33% 99%;
-    --popover-foreground: 24 10% 10%;
-    --primary: 24 10% 10%;
-    --primary-foreground: 36 33% 97%;
-    --secondary: 34 30% 92%;
-    --secondary-foreground: 24 10% 10%;
-    --muted: 34 25% 93%;
-    --muted-foreground: 24 6% 42%;
-    --accent: 16 62% 47%;
-    --accent-foreground: 36 33% 97%;
+    --background: 0 0% 99%;
+    --foreground: 0 0% 0%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 0 0% 0%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 95%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 0 0% 95%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 240 76% 58%;
+    --accent-foreground: 0 0% 100%;
+    --promo: 243 88% 91%;
     --destructive: 0 72% 46%;
-    --destructive-foreground: 36 33% 97%;
-    --border: 30 16% 86%;
-    --input: 30 16% 82%;
-    --ring: 16 62% 47%;
-    --radius: 0.25rem;
-    --navbar: 36 33% 97%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 89%;
+    --input: 0 0% 85%;
+    --ring: 240 76% 58%;
+    --radius: 0.5rem;
+    --navbar: 0 0% 0%;
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -52,13 +53,14 @@ All colors MUST be HSL.
     --secondary-foreground: 36 33% 95%;
     --muted: 24 8% 16%;
     --muted-foreground: 30 10% 65%;
-    --accent: 16 62% 52%;
+    --accent: 240 76% 64%;
+    --promo: 243 40% 25%;
     --accent-foreground: 36 33% 97%;
     --destructive: 0 62.8% 40%;
     --destructive-foreground: 36 33% 97%;
     --border: 24 8% 20%;
     --input: 24 8% 20%;
-    --ring: 16 62% 52%;
+    --ring: 240 76% 64%;
     --navbar: 24 10% 8%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
@@ -133,6 +135,6 @@ All colors MUST be HSL.
 
 @layer components {
   .eyebrow {
-    @apply text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground;
+    @apply text-sm font-medium text-muted-foreground;
   }
 }

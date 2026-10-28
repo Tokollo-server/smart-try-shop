@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Loader2, Sparkles } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 interface VirtualTryOnModalProps {
@@ -57,9 +57,8 @@ export const VirtualTryOnModal = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md bg-background">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 font-display text-2xl font-normal">
-            <Sparkles className="h-5 w-5 text-accent" />
-            AI Styling Advice
+          <DialogTitle className="text-2xl font-bold tracking-tight">
+            Styling advice
           </DialogTitle>
           <DialogDescription>
             Personalized recommendations for {productName}
@@ -78,9 +77,6 @@ export const VirtualTryOnModal = ({
                 <p className="text-sm leading-relaxed">{advice}</p>
               </div>
               
-              <div className="text-xs text-muted-foreground text-center">
-                💡 Future feature: Upload a photo for virtual try-on with Nano Banana AI
-              </div>
             </div>
           )}
         </div>
@@ -89,8 +85,7 @@ export const VirtualTryOnModal = ({
           <Button variant="outline" onClick={onClose}>Close</Button>
           {!loading && (
             <Button onClick={handleTryOn}>
-              <Sparkles className="h-4 w-4 mr-2" />
-              Refresh Advice
+                            Refresh Advice
             </Button>
           )}
         </div>

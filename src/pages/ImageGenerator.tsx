@@ -3,7 +3,7 @@ import { Navbar } from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Sparkles, Download, Loader2 } from "lucide-react";
+import { Download, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -70,11 +70,7 @@ const ImageGenerator = () => {
       <Navbar />
       <div className="container mx-auto px-4 py-16 max-w-4xl">
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 text-accent text-xs font-medium uppercase tracking-[0.15em] mb-6">
-            <Sparkles className="h-4 w-4" />
-            <span>AI Studio</span>
-          </div>
-          <h1 className="font-display text-4xl md:text-5xl mb-3">AI Image Generator</h1>
+                    <h1 className="font-bold tracking-tight text-4xl md:text-5xl mb-3">Look Creator</h1>
           <p className="text-muted-foreground">
             Powered by Nano Banana (Gemini 2.5 Flash Image)
           </p>
@@ -82,7 +78,7 @@ const ImageGenerator = () => {
 
         <Card className="mb-8 shadow-none">
           <CardHeader>
-            <CardTitle className="font-display text-2xl font-normal">Describe Your Image</CardTitle>
+            <CardTitle className="text-2xl font-bold tracking-tight">Describe Your Image</CardTitle>
             <CardDescription>
               Enter a detailed description of the image you want to create
             </CardDescription>
@@ -98,7 +94,7 @@ const ImageGenerator = () => {
             <Button 
               onClick={handleGenerate} 
               disabled={loading || !prompt.trim()}
-              className="w-full h-12 rounded-full text-xs uppercase tracking-[0.15em]"
+              className="w-full h-12 rounded-lg text-sm font-semibold"
               size="lg"
             >
               {loading ? (
@@ -108,8 +104,7 @@ const ImageGenerator = () => {
                 </>
               ) : (
                 <>
-                  <Sparkles className="mr-2 h-4 w-4" />
-                  Generate Image
+                                    Generate Image
                 </>
               )}
             </Button>
@@ -119,7 +114,7 @@ const ImageGenerator = () => {
         {generatedImage && (
           <Card className="shadow-none">
             <CardHeader>
-              <CardTitle className="font-display text-2xl font-normal">Generated Image</CardTitle>
+              <CardTitle className="text-2xl font-bold tracking-tight">Generated Image</CardTitle>
               {description && (
                 <CardDescription>{description}</CardDescription>
               )}
@@ -145,12 +140,12 @@ const ImageGenerator = () => {
         )}
 
         <div className="mt-8 p-6 bg-secondary rounded-lg">
-          <h3 className="font-semibold mb-2">Tips for Better Results:</h3>
-          <ul className="text-sm text-muted-foreground space-y-1">
-            <li>• Be specific about colors, lighting, and mood</li>
-            <li>• Include style keywords like "photorealistic", "watercolor", "digital art"</li>
-            <li>• Describe composition and perspective</li>
-            <li>• Rate limit: 10 images per 10 minutes</li>
+          <h3 className="font-semibold mb-2">Tips for better results</h3>
+          <ul className="text-sm text-muted-foreground list-disc space-y-1 pl-5">
+            <li>Be specific about colors, lighting, and mood</li>
+            <li>Include style keywords like "photorealistic", "watercolor", "digital art"</li>
+            <li>Describe composition and perspective</li>
+            <li>Rate limit: 10 images per 10 minutes</li>
           </ul>
         </div>
       </div>

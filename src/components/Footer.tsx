@@ -1,69 +1,68 @@
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, Twitter } from "lucide-react";
 
-const shopLinks = [
-  { label: "Women's Collection", to: "/catalog?category=women" },
-  { label: "Men's Collection", to: "/catalog?category=men" },
-  { label: "Kids' Collection", to: "/catalog?category=kids" },
-  { label: "Accessories", to: "/catalog?category=accessories" },
-];
-
-const aiLinks = [
-  { label: "AI Shopping Assistant", to: "/ai-assistant" },
-  { label: "AI Image Generator", to: "/image-generator" },
-  { label: "My Account", to: "/auth" },
+const columns = [
+  {
+    title: "Shop",
+    links: [
+      { label: "Women", to: "/catalog?category=women" },
+      { label: "Men", to: "/catalog?category=men" },
+      { label: "Kids", to: "/catalog?category=kids" },
+      { label: "Accessories", to: "/catalog?category=accessories" },
+      { label: "Deals", to: "/catalog?category=deals" },
+    ],
+  },
+  {
+    title: "Help & services",
+    links: [
+      { label: "Style Assistant", to: "/ai-assistant" },
+      { label: "Look Creator", to: "/image-generator" },
+      { label: "My account", to: "/auth" },
+    ],
+  },
 ];
 
 export const Footer = () => {
-  return <footer className="mt-auto bg-primary text-primary-foreground">
-      <div className="container py-16 md:py-20">
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-12">
-          <div className="md:col-span-4">
-            <Link to="/" className="font-display text-3xl">Smart Closet</Link>
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-primary-foreground/70">
-              Your destination for curated fashion. We bring together the latest trends and timeless classics for the entire family.
+  return <footer className="mt-auto bg-black text-white">
+      <div className="container py-12 md:py-16">
+        <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
+          <div className="col-span-2 md:col-span-1">
+            <Link to="/" className="text-2xl font-extrabold tracking-tight">smartcloset</Link>
+            <p className="mt-3 max-w-xs text-sm text-white/70">
+              Fashion for the whole family, delivered to your door.
             </p>
-            <div className="mt-6 flex gap-3">
-              {[Facebook, Instagram, Twitter].map((Icon, idx) => <a key={idx} href="#" className="flex h-10 w-10 items-center justify-center rounded-full border border-primary-foreground/20 text-primary-foreground/80 transition-colors hover:border-primary-foreground hover:text-primary-foreground">
+            <div className="mt-5 flex gap-2">
+              {[{ Icon: Facebook, label: "Facebook" }, { Icon: Instagram, label: "Instagram" }, { Icon: Twitter, label: "Twitter" }].map(({ Icon, label }) => <a key={label} href="#" aria-label={label} className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-white/20">
                   <Icon className="h-4 w-4" />
                 </a>)}
             </div>
           </div>
 
-          <div className="md:col-span-2 md:col-start-6">
-            <h3 className="mb-5 text-xs font-medium uppercase tracking-[0.2em] text-primary-foreground">Shop</h3>
-            <ul className="space-y-3 text-sm">
-              {shopLinks.map(link => <li key={link.to}>
-                  <Link to={link.to} className="text-primary-foreground/70 transition-colors hover:text-primary-foreground">{link.label}</Link>
-                </li>)}
-            </ul>
-          </div>
+          {columns.map(column => <div key={column.title}>
+              <h3 className="mb-4 text-sm font-bold text-white">{column.title}</h3>
+              <ul className="space-y-2.5 text-sm">
+                {column.links.map(link => <li key={link.label}>
+                    <Link to={link.to} className="text-white/70 transition-colors hover:text-white">{link.label}</Link>
+                  </li>)}
+              </ul>
+            </div>)}
 
-          <div className="md:col-span-2">
-            <h3 className="mb-5 text-xs font-medium uppercase tracking-[0.2em] text-primary-foreground">Smart Closet AI</h3>
-            <ul className="space-y-3 text-sm">
-              {aiLinks.map(link => <li key={link.to}>
-                  <Link to={link.to} className="text-primary-foreground/70 transition-colors hover:text-primary-foreground">{link.label}</Link>
-                </li>)}
-            </ul>
-          </div>
-
-          <div className="md:col-span-3">
-            <h3 className="mb-5 text-xs font-medium uppercase tracking-[0.2em] text-primary-foreground">Customer Care</h3>
-            <ul className="space-y-3 text-sm text-primary-foreground/70">
-              <li>Email: support@smartcloset.com</li>
-              <li>Phone: +27 64 663 0612</li>
-              <li>Hours: Mon-Fri 9AM-6PM EST</li>
+          <div className="col-span-2 md:col-span-1">
+            <h3 className="mb-4 text-sm font-bold text-white">Contact us</h3>
+            <ul className="space-y-2.5 text-sm text-white/70">
+              <li><a href="mailto:support@smartcloset.com" className="hover:text-white">support@smartcloset.com</a></li>
+              <li><a href="tel:+27646630612" className="hover:text-white">+27 64 663 0612</a></li>
+              <li>Mon-Fri, 9am-6pm</li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-primary-foreground/15 pt-8 md:flex-row">
-          <p className="text-xs text-primary-foreground/60">&copy; {new Date().getFullYear()} Smart Closet. All rights reserved.</p>
-          <div className="flex gap-6 text-xs text-primary-foreground/60">
-            <a href="#" className="transition-colors hover:text-primary-foreground">Privacy Policy</a>
-            <a href="#" className="transition-colors hover:text-primary-foreground">Terms of Service</a>
-            <a href="#" className="transition-colors hover:text-primary-foreground">Shipping Info</a>
+        <div className="mt-12 flex flex-col gap-4 border-t border-white/15 pt-6 text-xs text-white/60 md:flex-row md:items-center md:justify-between">
+          <p>&copy; {new Date().getFullYear()} Smart Closet. All rights reserved.</p>
+          <div className="flex gap-5">
+            <a href="#" className="hover:text-white">Privacy policy</a>
+            <a href="#" className="hover:text-white">Terms & conditions</a>
+            <a href="#" className="hover:text-white">Delivery</a>
           </div>
         </div>
       </div>

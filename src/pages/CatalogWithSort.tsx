@@ -4,7 +4,7 @@ import { getProducts } from "@/lib/shopify";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ProductCard, ProductCardSkeleton } from "@/components/ProductCard";
-import { ShoppingBag } from "lucide-react";
+import { ChevronRight, ShoppingBag } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -81,103 +81,90 @@ const CatalogWithSort = () => {
     ? category.charAt(0).toUpperCase() + category.slice(1)
     : "All Products";
 
-  const categoryLinks = [
-    { label: "All", value: null },
+  const genderOptions = [
+    { label: "All", value: "all" },
     { label: "Women", value: "women" },
     { label: "Men", value: "men" },
-    { label: "Kids", value: "kids" },
-    { label: "Accessories", value: "accessories" },
   ];
 
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
 
-      <section className="bg-secondary">
-        <div className="container py-14 md:py-20">
-          <p className="eyebrow mb-4">
-            <Link to="/" className="hover:text-foreground">Home</Link> / Shop
-          </p>
-          <h1 className="font-display text-4xl md:text-6xl">{categoryTitle}</h1>
-          {!searchQuery && (
-            <div className="mt-8 flex flex-wrap gap-2">
-              {categoryLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  to={link.value ? `/catalog?category=${link.value}` : "/catalog"}
-                  className={cn(
-                    "rounded-full border px-5 py-2 text-xs font-medium uppercase tracking-[0.15em] transition-colors",
-                    category === link.value
-                      ? "border-foreground bg-foreground text-background"
-                      : "border-foreground/20 hover:border-foreground"
-                  )}
-                >
-                  {link.label}
-                </Link>
-              ))}
+      <main className="container flex-1 py-6">
+        <nav aria-label="Breadcrumb" className="mb-4 flex items-center gap-1.5 text-xs text-muted-foreground">
+          <Link to="/" className="font-semibold text-foreground">smartcloset</Link>
+          <ChevronRight className="h-3 w-3" />
+          {category || searchQuery ? <Link to="/catalog" className="hover:text-foreground">Shop</Link> : <span className="font-semibold text-foreground">Shop</span>}
+          {(category || searchQuery) && <>
+              <ChevronRight className="h-3 w-3" />
+              <span className="font-semibold text-foreground">{searchQuery ? "Search" : categoryTitle}</span>
+            </>}
+        </nav>
+
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+          <h1 className="text-2xl font-bold tracking-tight">
+            {categoryTitle} <span className="ml-1 font-semibold text-muted-foreground">{filteredAndSortedProducts.length} items</span>
+          </h1>
+          <Select value={sortBy} onValueChange={setSortBy}>
+            <SelectTrigger className="h-10 w-[200px] rounded-full border-0 bg-secondary px-5 font-semibold" aria-label="Sort products">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="featured">Sort: Featured</SelectItem>
+              <SelectItem value="price-low">Price: Low to High</SelectItem>
+              <SelectItem value="price-high">Price: High to Low</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="flex flex-col gap-6 lg:flex-row lg:gap-8">
+          <aside className="lg:w-64 lg:flex-shrink-0">
+            <h2 className="mb-3 hidden text-xl font-bold lg:block">Filter</h2>
+            <div className="rounded-lg bg-secondary p-4">
+              <h3 className="mb-3 text-base font-bold">Gender</h3>
+              <div className="flex flex-wrap gap-2 lg:flex-col lg:gap-1">
+                {genderOptions.map(option => <button
+                    key={option.value}
+                    type="button"
+                    onClick={() => setGenderFilter(option.value)}
+                    className={cn(
+                      "rounded-md px-3 py-1.5 text-left text-sm font-medium transition-colors",
+                      genderFilter === option.value ? "bg-black text-white" : "bg-background hover:bg-background/70 lg:bg-transparent lg:hover:bg-background"
+                    )}
+                  >
+                    {option.label}
+                  </button>)}
+              </div>
             </div>
-          )}
-        </div>
-      </section>
+          </aside>
 
-      <div className="container py-10 flex-1">
-        <div className="mb-10 flex flex-wrap items-center gap-4 border-b border-border pb-6">
-          <div className="flex items-center gap-2">
-            <label className="eyebrow">Gender</label>
-            <Select value={genderFilter} onValueChange={setGenderFilter}>
-              <SelectTrigger className="w-[140px] rounded-full bg-card">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All</SelectItem>
-                <SelectItem value="men">Men</SelectItem>
-                <SelectItem value="women">Women</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <label className="eyebrow">Sort by</label>
-            <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-[180px] rounded-full bg-card">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="featured">Featured</SelectItem>
-                <SelectItem value="price-low">Price: Low to High</SelectItem>
-                <SelectItem value="price-high">Price: High to Low</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="ml-auto text-sm text-muted-foreground">
-            {filteredAndSortedProducts.length} products
+          <div className="flex-1">
+            {isLoading ? (
+              <div className="grid grid-cols-2 gap-x-3 gap-y-8 md:grid-cols-3 xl:grid-cols-4">
+                {Array.from({ length: 8 }).map((_, idx) => <ProductCardSkeleton key={idx} />)}
+              </div>
+            ) : filteredAndSortedProducts.length > 0 ? (
+              <div className="grid grid-cols-2 gap-x-3 gap-y-8 md:grid-cols-3 xl:grid-cols-4">
+                {filteredAndSortedProducts.map((product) => (
+                  <ProductCard key={product.node.id} product={product} />
+                ))}
+              </div>
+            ) : (
+              <div className="rounded-lg bg-secondary px-6 py-20 text-center">
+                <ShoppingBag className="mx-auto mb-4 h-10 w-10 text-muted-foreground" />
+                <h3 className="text-xl font-bold">No products found</h3>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Try a different filter or search term.
+                </p>
+                <Link to="/catalog" className="mt-6 inline-block rounded-md bg-black px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-black/80">
+                  View all products
+                </Link>
+              </div>
+            )}
           </div>
         </div>
-
-        {isLoading ? (
-          <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 md:gap-x-6 lg:grid-cols-4">
-            {Array.from({ length: 8 }).map((_, idx) => <ProductCardSkeleton key={idx} />)}
-          </div>
-        ) : filteredAndSortedProducts.length > 0 ? (
-          <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 md:gap-x-6 lg:grid-cols-4">
-            {filteredAndSortedProducts.map((product) => (
-              <ProductCard key={product.node.id} product={product} />
-            ))}
-          </div>
-        ) : (
-          <div className="py-24 text-center">
-            <ShoppingBag className="mx-auto mb-6 h-12 w-12 text-muted-foreground/50" />
-            <h3 className="font-display text-3xl">No products found</h3>
-            <p className="mt-3 text-muted-foreground">
-              Try adjusting your filters or search query.
-            </p>
-            <Link to="/catalog" className="mt-8 inline-block rounded-full border border-foreground px-8 py-3 text-xs font-medium uppercase tracking-[0.15em] transition-colors hover:bg-foreground hover:text-background">
-              View all products
-            </Link>
-          </div>
-        )}
-      </div>
+      </main>
 
       <Footer />
     </div>

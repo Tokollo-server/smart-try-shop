@@ -83,7 +83,7 @@ export async function storefrontApiRequest(query: string, variables: any = {}) {
 }
 
 const STOREFRONT_QUERY = `
-  query GetProducts($first: Int!) {
+  query GetProducts($first: Int!) @inContext(country: ZA) {
     products(first: $first) {
       edges {
         node {
@@ -133,7 +133,7 @@ const STOREFRONT_QUERY = `
 `;
 
 const PRODUCT_BY_HANDLE_QUERY = `
-  query GetProductByHandle($handle: String!) {
+  query GetProductByHandle($handle: String!) @inContext(country: ZA) {
     productByHandle(handle: $handle) {
       id
       title
@@ -204,7 +204,7 @@ export interface CartItem {
 }
 
 const CART_CREATE_MUTATION = `
-  mutation cartCreate($input: CartInput!) {
+  mutation cartCreate($input: CartInput!) @inContext(country: ZA) {
     cartCreate(input: $input) {
       cart {
         id
@@ -257,6 +257,7 @@ export async function createStorefrontCheckout(items: CartItem[]): Promise<strin
     const cartData = await storefrontApiRequest(CART_CREATE_MUTATION, {
       input: {
         lines,
+        buyerIdentity: { countryCode: "ZA" },
       },
     });
 

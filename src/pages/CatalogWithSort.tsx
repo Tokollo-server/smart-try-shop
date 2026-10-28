@@ -17,7 +17,8 @@ const CatalogWithSort = () => {
   const [sortBy, setSortBy] = useState<string>("featured");
   const [genderFilter, setGenderFilter] = useState<string>("all");
 
-  const { data: products, isLoading } = useQuery({
+  const { data: products, isLoading, isError } = useQuery({
+    retry: 1,
     queryKey: ['products'],
     queryFn: () => getProducts(50)
   });
@@ -79,7 +80,7 @@ const CatalogWithSort = () => {
     ? `Search results for "${searchQuery}"`
     : category 
     ? category.charAt(0).toUpperCase() + category.slice(1)
-    : "All Products";
+    : "All products";
 
   const genderOptions = [
     { label: "All", value: "all" },
@@ -104,7 +105,7 @@ const CatalogWithSort = () => {
 
         <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
           <h1 className="text-2xl font-bold tracking-tight">
-            {categoryTitle} <span className="ml-1 font-semibold text-muted-foreground">{filteredAndSortedProducts.length} items</span>
+            {categoryTitle} {!isError && <span className="ml-1 font-semibold text-muted-foreground">{filteredAndSortedProducts.length} items</span>}
           </h1>
           <Select value={sortBy} onValueChange={setSortBy}>
             <SelectTrigger className="h-10 w-[200px] rounded-full border-0 bg-secondary px-5 font-semibold" aria-label="Sort products">
@@ -153,13 +154,13 @@ const CatalogWithSort = () => {
             ) : (
               <div className="rounded-lg bg-secondary px-6 py-20 text-center">
                 <ShoppingBag className="mx-auto mb-4 h-10 w-10 text-muted-foreground" />
-                <h3 className="text-xl font-bold">No products found</h3>
+                <h3 className="text-xl font-bold">{isError ? "Products are unavailable right now" : "No products found"}</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Try a different filter or search term.
+                  {isError ? "Please check back soon." : "Try a different filter or search term."}
                 </p>
-                <Link to="/catalog" className="mt-6 inline-block rounded-md bg-black px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-black/80">
+                {!isError && <Link to="/catalog" className="mt-6 inline-block rounded-md bg-black px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-black/80">
                   View all products
-                </Link>
+                </Link>}
               </div>
             )}
           </div>

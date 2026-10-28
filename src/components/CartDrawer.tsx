@@ -56,7 +56,7 @@ export const CartDrawer = () => {
       
       <SheetContent className="w-full sm:max-w-lg flex flex-col h-full bg-background">
         <SheetHeader className="flex-shrink-0">
-          <SheetTitle className="text-2xl font-bold tracking-tight">Your Bag</SheetTitle>
+          <SheetTitle className="text-2xl font-bold tracking-tight">Your bag</SheetTitle>
           <SheetDescription>
             {totalItems === 0 ? "Your cart is empty" : `${totalItems} item${totalItems !== 1 ? 's' : ''} in your cart`}
           </SheetDescription>
@@ -153,7 +153,7 @@ export const CartDrawer = () => {
                   ) : (
                     <>
                       <ExternalLink className="w-4 h-4 mr-2" />
-                      Checkout with Shopify
+                      Checkout
                     </>
                   )}
                 </Button>

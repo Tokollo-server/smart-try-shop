@@ -72,20 +72,20 @@ const ImageGenerator = () => {
         <div className="text-center mb-10">
                     <h1 className="font-bold tracking-tight text-4xl md:text-5xl mb-3">Look Creator</h1>
           <p className="text-muted-foreground">
-            Powered by Nano Banana (Gemini 2.5 Flash Image)
+            Describe an outfit and we'll create a picture of the look
           </p>
         </div>
 
         <Card className="mb-8 shadow-none">
           <CardHeader>
-            <CardTitle className="text-2xl font-bold tracking-tight">Describe Your Image</CardTitle>
+            <CardTitle className="text-2xl font-bold tracking-tight">Describe your look</CardTitle>
             <CardDescription>
-              Enter a detailed description of the image you want to create
+              Tell us what you'd like to see
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <Textarea
-              placeholder="Example: A serene sunset over mountains with vibrant orange and purple colors, peaceful lake in foreground, photorealistic style"
+              placeholder="Example: Relaxed linen suit in sand beige with white sneakers, styled for a summer lunch in Cape Town"
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               rows={4}
@@ -104,7 +104,7 @@ const ImageGenerator = () => {
                 </>
               ) : (
                 <>
-                                    Generate Image
+                                    Create look
                 </>
               )}
             </Button>
@@ -142,10 +142,10 @@ const ImageGenerator = () => {
         <div className="mt-8 p-6 bg-secondary rounded-lg">
           <h3 className="font-semibold mb-2">Tips for better results</h3>
           <ul className="text-sm text-muted-foreground list-disc space-y-1 pl-5">
-            <li>Be specific about colors, lighting, and mood</li>
-            <li>Include style keywords like "photorealistic", "watercolor", "digital art"</li>
-            <li>Describe composition and perspective</li>
-            <li>Rate limit: 10 images per 10 minutes</li>
+            <li>Name the pieces, colours and fabrics</li>
+            <li>Mention the occasion or setting</li>
+            <li>Add a style, like casual, smart or streetwear</li>
+            <li>Up to 10 looks every 10 minutes</li>
           </ul>
         </div>
       </div>

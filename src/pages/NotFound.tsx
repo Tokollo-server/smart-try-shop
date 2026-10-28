@@ -19,7 +19,7 @@ const NotFound = () => {
           <h1 className="font-bold tracking-tight text-6xl md:text-8xl">Page not found</h1>
           <p className="mx-auto mt-6 max-w-md text-muted-foreground">The page you're looking for doesn't exist or has been moved.</p>
           <Link to="/" className="mt-10 inline-block rounded-lg bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90">
-            Return to Home
+            Back to homepage
           </Link>
         </div>
       </div>

@@ -63,7 +63,7 @@ const AIBuilder = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-2xl font-bold tracking-tight">
                 <Store className="h-5 w-5" />
-                Store Information
+                Store information
               </CardTitle>
               <CardDescription>
                 Tell us about your store and we will put together a setup for you
@@ -71,7 +71,7 @@ const AIBuilder = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="storeName">Store Name *</Label>
+                <Label htmlFor="storeName">Store name *</Label>
                 <Input
                   id="storeName"
                   placeholder="e.g., Fashion Hub"
@@ -81,7 +81,7 @@ const AIBuilder = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="niche">Store Niche *</Label>
+                <Label htmlFor="niche">Store niche *</Label>
                 <Input
                   id="niche"
                   placeholder="e.g., Women's Fashion, Streetwear, Athletic Wear"
@@ -91,7 +91,7 @@ const AIBuilder = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="targetAudience">Target Audience</Label>
+                <Label htmlFor="targetAudience">Target audience</Label>
                 <Input
                   id="targetAudience"
                   placeholder="e.g., Young professionals, 25-35 years old"
@@ -101,7 +101,7 @@ const AIBuilder = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="brandStyle">Brand Style Preferences</Label>
+                <Label htmlFor="brandStyle">Brand style</Label>
                 <Textarea
                   id="brandStyle"
                   placeholder="Describe your desired brand aesthetic (e.g., minimalist, bold, elegant)"
@@ -124,7 +124,7 @@ const AIBuilder = () => {
                   </>
                 ) : (
                   <>
-                                        Generate Store
+                                        Generate store
                   </>
                 )}
               </Button>

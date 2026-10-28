@@ -83,8 +83,8 @@ export default function Auth() {
             </p>
             <Tabs defaultValue="signin" className="w-full">
               <TabsList className="mb-8 grid h-12 w-full grid-cols-2 rounded-full bg-secondary p-1">
-                <TabsTrigger value="signin" className="rounded-full data-[state=active]:bg-background data-[state=active]:shadow-sm">Sign In</TabsTrigger>
-                <TabsTrigger value="signup" className="rounded-full data-[state=active]:bg-background data-[state=active]:shadow-sm">Sign Up</TabsTrigger>
+                <TabsTrigger value="signin" className="rounded-full data-[state=active]:bg-background data-[state=active]:shadow-sm">Sign in</TabsTrigger>
+                <TabsTrigger value="signup" className="rounded-full data-[state=active]:bg-background data-[state=active]:shadow-sm">Sign up</TabsTrigger>
               </TabsList>
               
               <TabsContent value="signin">
@@ -115,7 +115,7 @@ export default function Auth() {
                     className="w-full h-12 rounded-lg text-sm font-semibold"
                     disabled={loading}
                   >
-                    {loading ? "Signing in..." : "Sign In"}
+                    {loading ? "Signing in..." : "Sign in"}
                   </Button>
                 </form>
               </TabsContent>

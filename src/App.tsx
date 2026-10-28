@@ -11,6 +11,7 @@ import AIAssistant from "./pages/AIAssistant";
 import Admin from "./pages/Admin";
 import Auth from "./pages/Auth";
 import ResetPassword from "./pages/ResetPassword";
+import { PasswordRecoveryRedirect } from "./components/PasswordRecoveryRedirect";
 import ImageGenerator from "./pages/ImageGenerator";
 import NotFound from "./pages/NotFound";
 import { SmartStylistChat } from "@/components/SmartStylistChat";
@@ -24,6 +25,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <PasswordRecoveryRedirect />
         <div className="pb-14">
           <Routes>
             <Route path="/" element={<Index />} />

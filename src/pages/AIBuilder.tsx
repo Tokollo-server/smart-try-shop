@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2, Sparkles, Store } from "lucide-react";
+import { Loader2, Store } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -34,7 +34,7 @@ const AIBuilder = () => {
       if (error) throw error;
 
       toast.success("Store configuration generated!", {
-        description: "Your AI-powered store setup is ready"
+        description: "Your store setup is ready"
       });
     } catch (error) {
       console.error('Error generating store:', error);
@@ -50,32 +50,28 @@ const AIBuilder = () => {
     <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
       
-      <div className="container py-12 flex-1">
+      <div className="container py-16 flex-1">
         <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
-              <Sparkles className="h-4 w-4" />
-              <span>AI Store Builder</span>
-            </div>
-            <h1 className="text-4xl font-bold mb-3">AI-Powered Store Configuration</h1>
+          <div className="text-center mb-10">
+                        <h1 className="font-bold tracking-tight text-4xl md:text-5xl mb-4">Store Builder</h1>
             <p className="text-muted-foreground text-lg">
-              Let AI create a complete store design, product layout, and theme suggestions
+              Create a complete store design, product layout, and theme suggestions
             </p>
           </div>
 
-          <Card>
+          <Card className="shadow-none">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+              <CardTitle className="flex items-center gap-2 text-2xl font-bold tracking-tight">
                 <Store className="h-5 w-5" />
-                Store Information
+                Store information
               </CardTitle>
               <CardDescription>
-                Tell us about your store and our AI will do the rest
+                Tell us about your store and we will put together a setup for you
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="storeName">Store Name *</Label>
+                <Label htmlFor="storeName">Store name *</Label>
                 <Input
                   id="storeName"
                   placeholder="e.g., Fashion Hub"
@@ -85,7 +81,7 @@ const AIBuilder = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="niche">Store Niche *</Label>
+                <Label htmlFor="niche">Store niche *</Label>
                 <Input
                   id="niche"
                   placeholder="e.g., Women's Fashion, Streetwear, Athletic Wear"
@@ -95,7 +91,7 @@ const AIBuilder = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="targetAudience">Target Audience</Label>
+                <Label htmlFor="targetAudience">Target audience</Label>
                 <Input
                   id="targetAudience"
                   placeholder="e.g., Young professionals, 25-35 years old"
@@ -105,7 +101,7 @@ const AIBuilder = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="brandStyle">Brand Style Preferences</Label>
+                <Label htmlFor="brandStyle">Brand style</Label>
                 <Textarea
                   id="brandStyle"
                   placeholder="Describe your desired brand aesthetic (e.g., minimalist, bold, elegant)"
@@ -116,7 +112,7 @@ const AIBuilder = () => {
               </div>
 
               <Button
-                className="w-full"
+                className="w-full h-12 rounded-lg text-sm font-semibold"
                 size="lg"
                 onClick={handleGenerate}
                 disabled={loading}
@@ -128,22 +124,21 @@ const AIBuilder = () => {
                   </>
                 ) : (
                   <>
-                    <Sparkles className="mr-2 h-4 w-4" />
-                    Generate Store
+                                        Generate store
                   </>
                 )}
               </Button>
             </CardContent>
           </Card>
 
-          <div className="mt-8 p-6 bg-secondary/20 rounded-lg">
-            <h3 className="font-semibold mb-3">What AI Will Generate:</h3>
+          <div className="mt-8 p-6 bg-secondary rounded-lg">
+            <h3 className="font-semibold mb-3">What you'll get</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>✓ Complete store design and color scheme</li>
-              <li>✓ Product categories and layout recommendations</li>
-              <li>✓ Brand name and logo suggestions</li>
-              <li>✓ Navigation structure and page hierarchy</li>
-              <li>✓ Typography and visual style guide</li>
+              <li>Complete store design and color scheme</li>
+              <li>Product categories and layout recommendations</li>
+              <li>Brand name and logo suggestions</li>
+              <li>Navigation structure and page hierarchy</li>
+              <li>Typography and visual style guide</li>
             </ul>
           </div>
         </div>

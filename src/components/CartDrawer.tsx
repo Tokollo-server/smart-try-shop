@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { formatPrice } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -9,7 +10,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { ShoppingCart, Minus, Plus, Trash2, ExternalLink, Loader2 } from "lucide-react";
+import { ShoppingBag, Minus, Plus, Trash2, ExternalLink, Loader2 } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 
@@ -43,19 +44,19 @@ export const CartDrawer = () => {
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline" size="icon" className="relative">
-          <ShoppingCart className="h-5 w-5" />
+        <Button variant="ghost" size="icon" className="relative" aria-label="Open cart">
+          <ShoppingBag className="h-5 w-5" />
           {totalItems > 0 && (
-            <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs">
+            <Badge className="absolute -top-0.5 -right-0.5 h-5 w-5 rounded-full p-0 flex items-center justify-center text-[10px] bg-accent text-accent-foreground hover:bg-accent">
               {totalItems}
             </Badge>
           )}
         </Button>
       </SheetTrigger>
       
-      <SheetContent className="w-full sm:max-w-lg flex flex-col h-full">
+      <SheetContent className="w-full sm:max-w-lg flex flex-col h-full bg-background">
         <SheetHeader className="flex-shrink-0">
-          <SheetTitle>Shopping Cart</SheetTitle>
+          <SheetTitle className="text-2xl font-bold tracking-tight">Your bag</SheetTitle>
           <SheetDescription>
             {totalItems === 0 ? "Your cart is empty" : `${totalItems} item${totalItems !== 1 ? 's' : ''} in your cart`}
           </SheetDescription>
@@ -65,7 +66,7 @@ export const CartDrawer = () => {
           {items.length === 0 ? (
             <div className="flex-1 flex items-center justify-center">
               <div className="text-center">
-                <ShoppingCart className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <ShoppingBag className="h-12 w-12 text-muted-foreground/60 mx-auto mb-4" />
                 <p className="text-muted-foreground">Your cart is empty</p>
               </div>
             </div>
@@ -74,8 +75,8 @@ export const CartDrawer = () => {
               <div className="flex-1 overflow-y-auto pr-2 min-h-0">
                 <div className="space-y-4">
                   {items.map((item) => (
-                    <div key={item.variantId} className="flex gap-4 p-2">
-                      <div className="w-16 h-16 bg-secondary/20 rounded-md overflow-hidden flex-shrink-0">
+                    <div key={item.variantId} className="flex gap-4 border-b border-border pb-4">
+                      <div className="w-20 h-24 bg-secondary overflow-hidden flex-shrink-0">
                         {item.product.node.images?.edges?.[0]?.node && (
                           <img
                             src={item.product.node.images.edges[0].node.url}
@@ -88,10 +89,10 @@ export const CartDrawer = () => {
                       <div className="flex-1 min-w-0">
                         <h4 className="font-medium truncate">{item.product.node.title}</h4>
                         <p className="text-sm text-muted-foreground">
-                          {item.selectedOptions.map(option => option.value).join(' • ')}
+                          {item.selectedOptions.map(option => option.value).join(' / ')}
                         </p>
-                        <p className="font-semibold">
-                          {item.price.currencyCode} {parseFloat(item.price.amount).toFixed(2)}
+                        <p className="mt-1 text-sm font-medium">
+                          {formatPrice(item.price.amount, item.price.currencyCode)}
                         </p>
                       </div>
                       
@@ -132,15 +133,15 @@ export const CartDrawer = () => {
               
               <div className="flex-shrink-0 space-y-4 pt-4 border-t bg-background">
                 <div className="flex justify-between items-center">
-                  <span className="text-lg font-semibold">Total</span>
-                  <span className="text-xl font-bold">
-                    {items[0]?.price.currencyCode || 'USD'} {totalPrice.toFixed(2)}
+                  <span className="text-sm text-muted-foreground">Subtotal</span>
+                  <span className="font-bold tracking-tight text-2xl">
+                    {formatPrice(totalPrice, items[0]?.price.currencyCode)}
                   </span>
                 </div>
                 
                 <Button 
                   onClick={handleCheckout}
-                  className="w-full" 
+                  className="w-full h-12 text-xs" 
                   size="lg"
                   disabled={items.length === 0 || isLoading}
                 >
@@ -152,7 +153,7 @@ export const CartDrawer = () => {
                   ) : (
                     <>
                       <ExternalLink className="w-4 h-4 mr-2" />
-                      Checkout with Shopify
+                      Checkout
                     </>
                   )}
                 </Button>

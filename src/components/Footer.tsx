@@ -1,60 +1,68 @@
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, Twitter } from "lucide-react";
+
+const columns = [
+  {
+    title: "Shop",
+    links: [
+      { label: "Women", to: "/catalog?category=women" },
+      { label: "Men", to: "/catalog?category=men" },
+      { label: "Kids", to: "/catalog?category=kids" },
+      { label: "Accessories", to: "/catalog?category=accessories" },
+      { label: "Deals", to: "/catalog?category=deals" },
+    ],
+  },
+  {
+    title: "Help & services",
+    links: [
+      { label: "Style Assistant", to: "/ai-assistant" },
+      { label: "Look Creator", to: "/image-generator" },
+      { label: "My account", to: "/auth" },
+    ],
+  },
+];
+
 export const Footer = () => {
-  return <footer className="bg-zinc-950 border-t border-zinc-800 mt-auto">
-      <div className="container py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-          <div>
-            <h3 className="font-bold text-xl mb-6 text-white">About Smart Closet</h3>
-            <p className="text-sm text-gray-400 leading-relaxed">
-              Your destination for curated fashion. We bring together the latest trends and timeless classics for the entire family.
+  return <footer className="mt-auto bg-black text-white">
+      <div className="container py-12 md:py-16">
+        <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
+          <div className="col-span-2 md:col-span-1">
+            <Link to="/" className="text-2xl font-extrabold tracking-tight">smartcloset</Link>
+            <p className="mt-3 max-w-xs text-sm text-white/70">
+              Fashion for the whole family, delivered to your door.
             </p>
-          </div>
-          
-          <div>
-            <h3 className="font-bold text-xl mb-6 text-white">Shop</h3>
-            <ul className="space-y-3 text-sm">
-              <li><Link to="/catalog?category=women" className="text-gray-400 hover:text-white transition-colors">Women's Collection</Link></li>
-              <li><Link to="/catalog?category=men" className="text-gray-400 hover:text-white transition-colors">Men's Collection</Link></li>
-              <li><Link to="/catalog?category=kids" className="text-gray-400 hover:text-white transition-colors">Kids' Collection</Link></li>
-              <li><Link to="/catalog?category=accessories" className="text-gray-400 hover:text-white transition-colors">Accessories</Link></li>
-            </ul>
-          </div>
-          
-          <div>
-            <h3 className="font-bold text-xl mb-6 text-white">Customer Care</h3>
-            <ul className="space-y-3 text-sm">
-              <li className="text-gray-400">Email: support@smartcloset.com</li>
-              <li className="text-gray-400">Phone: +27 64 663 0612</li>
-              <li className="text-gray-400">Hours: Mon-Fri 9AM-6PM EST</li>
-            </ul>
-          </div>
-          
-          <div>
-            <h3 className="font-bold text-xl mb-6 text-white">Connect</h3>
-            <div className="flex gap-4 mb-6">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Facebook className="h-6 w-6" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Instagram className="h-6 w-6" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Twitter className="h-6 w-6" />
-              </a>
+            <div className="mt-5 flex gap-2">
+              {[{ Icon: Facebook, label: "Facebook" }, { Icon: Instagram, label: "Instagram" }, { Icon: Twitter, label: "Twitter" }].map(({ Icon, label }) => <a key={label} href="#" aria-label={label} className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-white/20">
+                  <Icon className="h-4 w-4" />
+                </a>)}
             </div>
-            <p className="text-sm text-gray-400">
-              Follow us for the latest updates and exclusive offers
-            </p>
+          </div>
+
+          {columns.map(column => <div key={column.title}>
+              <h3 className="mb-4 text-sm font-bold text-white">{column.title}</h3>
+              <ul className="space-y-2.5 text-sm">
+                {column.links.map(link => <li key={link.label}>
+                    <Link to={link.to} className="text-white/70 transition-colors hover:text-white">{link.label}</Link>
+                  </li>)}
+              </ul>
+            </div>)}
+
+          <div className="col-span-2 md:col-span-1">
+            <h3 className="mb-4 text-sm font-bold text-white">Contact us</h3>
+            <ul className="space-y-2.5 text-sm text-white/70">
+              <li><a href="mailto:support@smartcloset.com" className="hover:text-white">support@smartcloset.com</a></li>
+              <li><a href="tel:+27646630612" className="hover:text-white">+27 64 663 0612</a></li>
+              <li>Mon-Fri, 9am-6pm</li>
+            </ul>
           </div>
         </div>
-        
-        <div className="border-t border-zinc-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-gray-500">&copy; 2024 Smart Closet. All rights reserved.</p>
-          <div className="flex gap-6 text-sm text-gray-500">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-white transition-colors">Shipping Info</a>
+
+        <div className="mt-12 flex flex-col gap-4 border-t border-white/15 pt-6 text-xs text-white/60 md:flex-row md:items-center md:justify-between">
+          <p>&copy; {new Date().getFullYear()} Smart Closet. All rights reserved.</p>
+          <div className="flex gap-5">
+            <a href="#" className="hover:text-white">Privacy policy</a>
+            <a href="#" className="hover:text-white">Terms & conditions</a>
+            <a href="#" className="hover:text-white">Delivery</a>
           </div>
         </div>
       </div>

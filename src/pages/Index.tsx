@@ -6,10 +6,11 @@ import { ProductCard } from "@/components/ProductCard";
 import { ArrowRight, RotateCcw, ShieldCheck, Truck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { freeDeliveryLabel } from "@/lib/shipping";
 import heroImage from "@/assets/hero-closet.jpg";
 
 const perks = [
-  { icon: Truck, title: "Free delivery", text: "On orders over $29" },
+  { icon: Truck, title: "Free delivery", text: freeDeliveryLabel.replace("Free delivery on", "On") },
   { icon: RotateCcw, title: "Easy returns", text: "Changed your mind? No problem" },
   { icon: ShieldCheck, title: "Secure checkout", text: "Pay safely with Shopify" },
 ];

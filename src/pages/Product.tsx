@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ShoppingBag, ShoppingCart, ArrowLeft, ChevronRight, Package, Shirt, ShieldCheck, RotateCcw } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
+import { freeDeliveryLabel } from "@/lib/shipping";
 import { useState } from "react";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
@@ -170,7 +171,7 @@ const Product = () => {
               <Package className="h-5 w-5 flex-shrink-0" />
               <div>
                 <p className="text-sm font-semibold">Get it in 2 - 4 working days</p>
-                <p className="text-xs text-muted-foreground">Free delivery on orders over $29</p>
+                <p className="text-xs text-muted-foreground">{freeDeliveryLabel}</p>
               </div>
             </div>
 

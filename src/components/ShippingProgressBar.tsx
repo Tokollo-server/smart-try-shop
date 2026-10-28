@@ -1,11 +1,14 @@
 import { useCartStore } from "@/stores/cartStore";
 import { Truck } from "lucide-react";
+import { formatPrice } from "@/lib/utils";
+import { FREE_DELIVERY_THRESHOLD, STORE_CURRENCY } from "@/lib/shipping";
 
 export const ShippingProgressBar = () => {
   const items = useCartStore(state => state.items);
   
   const totalPrice = items.reduce((sum, item) => sum + (parseFloat(item.price.amount) * item.quantity), 0);
-  const shippingThreshold = 29;
+  const shippingThreshold = FREE_DELIVERY_THRESHOLD;
+  const currency = items[0]?.price.currencyCode || STORE_CURRENCY;
   const progress = Math.min((totalPrice / shippingThreshold) * 100, 100);
   const remaining = Math.max(shippingThreshold - totalPrice, 0);
 
@@ -19,9 +22,9 @@ export const ShippingProgressBar = () => {
               <span className="text-xs font-semibold">
                 {progress >= 100 
                   ? "You qualify for free delivery" 
-                  : `Spend $${remaining.toFixed(2)} more for free delivery`}
+                  : `Spend ${formatPrice(remaining, currency)} more for free delivery`}
               </span>
-              <span className="hidden text-xs text-muted-foreground sm:inline">${totalPrice.toFixed(2)} / $29.00</span>
+              <span className="hidden text-xs text-muted-foreground sm:inline">{formatPrice(totalPrice, currency)} / {formatPrice(shippingThreshold, currency)}</span>
             </div>
             <div className="relative h-1 overflow-hidden rounded-full bg-secondary">
               <div 

@@ -55,10 +55,10 @@ export const VirtualTryOnModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md bg-background">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-primary" />
+          <DialogTitle className="flex items-center gap-2 font-display text-2xl font-normal">
+            <Sparkles className="h-5 w-5 text-accent" />
             AI Styling Advice
           </DialogTitle>
           <DialogDescription>
@@ -69,12 +69,12 @@ export const VirtualTryOnModal = ({
         <div className="py-6">
           {loading ? (
             <div className="flex flex-col items-center justify-center gap-4 py-8">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              <Loader2 className="h-8 w-8 animate-spin text-accent" />
               <p className="text-sm text-muted-foreground">Analyzing your perfect fit...</p>
             </div>
           ) : (
             <div className="space-y-4">
-              <div className="p-4 bg-secondary/50 rounded-lg">
+              <div className="p-4 bg-secondary rounded-lg">
                 <p className="text-sm leading-relaxed">{advice}</p>
               </div>
               

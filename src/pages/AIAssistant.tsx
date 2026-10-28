@@ -68,19 +68,19 @@ const AIAssistant = () => {
     <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
       
-      <div className="container flex-1 flex flex-col py-6 max-w-4xl">
+      <div className="container flex-1 flex flex-col py-12 max-w-4xl">
         <div className="text-center mb-6">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 text-accent text-xs font-medium uppercase tracking-[0.15em] mb-6">
             <MessageCircle className="h-4 w-4" />
             <span>24/7 AI Shopping Assistant</span>
           </div>
-          <h1 className="text-3xl font-bold mb-2">Chat with Our AI Assistant</h1>
+          <h1 className="font-display text-4xl md:text-5xl mb-3">Chat with Our AI Assistant</h1>
           <p className="text-muted-foreground">
             Get instant help with product recommendations, sizing, orders, and more
           </p>
         </div>
 
-        <Card className="flex-1 flex flex-col p-6">
+        <Card className="flex-1 flex flex-col p-6 min-h-[480px] bg-card shadow-none">
           <div className="flex-1 overflow-y-auto space-y-4 mb-4">
             {messages.map((message, index) => (
               <div
@@ -88,7 +88,7 @@ const AIAssistant = () => {
                 className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
               >
                 <div
-                  className={`max-w-[80%] rounded-lg p-4 ${
+                  className={`max-w-[80%] rounded-2xl px-5 py-4 ${
                     message.role === "user"
                       ? "bg-primary text-primary-foreground"
                       : "bg-secondary"
@@ -120,9 +120,10 @@ const AIAssistant = () => {
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={(e) => e.key === "Enter" && handleSend()}
               placeholder="Ask me anything..."
+              className="rounded-full bg-background"
               disabled={loading}
             />
-            <Button onClick={handleSend} disabled={loading || !input.trim()}>
+            <Button onClick={handleSend} disabled={loading || !input.trim()} className="rounded-full px-5">
               <Send className="h-4 w-4" />
             </Button>
           </div>

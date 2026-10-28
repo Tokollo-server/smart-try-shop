@@ -50,22 +50,22 @@ const AIBuilder = () => {
     <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
       
-      <div className="container py-12 flex-1">
+      <div className="container py-16 flex-1">
         <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 text-accent text-xs font-medium uppercase tracking-[0.15em] mb-6">
               <Sparkles className="h-4 w-4" />
               <span>AI Store Builder</span>
             </div>
-            <h1 className="text-4xl font-bold mb-3">AI-Powered Store Configuration</h1>
+            <h1 className="font-display text-4xl md:text-5xl mb-4">AI-Powered Store Configuration</h1>
             <p className="text-muted-foreground text-lg">
               Let AI create a complete store design, product layout, and theme suggestions
             </p>
           </div>
 
-          <Card>
+          <Card className="shadow-none">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+              <CardTitle className="flex items-center gap-2 font-display text-2xl font-normal">
                 <Store className="h-5 w-5" />
                 Store Information
               </CardTitle>
@@ -116,7 +116,7 @@ const AIBuilder = () => {
               </div>
 
               <Button
-                className="w-full"
+                className="w-full h-12 rounded-full text-xs uppercase tracking-[0.15em]"
                 size="lg"
                 onClick={handleGenerate}
                 disabled={loading}
@@ -136,7 +136,7 @@ const AIBuilder = () => {
             </CardContent>
           </Card>
 
-          <div className="mt-8 p-6 bg-secondary/20 rounded-lg">
+          <div className="mt-8 p-6 bg-secondary rounded-lg">
             <h3 className="font-semibold mb-3">What AI Will Generate:</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>✓ Complete store design and color scheme</li>

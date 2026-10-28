@@ -4,7 +4,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { Navbar } from "@/components/Navbar";
@@ -62,64 +61,58 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col relative">
-      {/* Background Image with Overlay */}
-      <div 
-        className="absolute inset-0 z-0"
-        style={{
-          backgroundImage: `url(${heroImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
-        <div className="absolute inset-0 bg-black/70" />
-      </div>
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
 
-      {/* Content */}
-      <div className="relative z-10 flex flex-col min-h-screen">
-        <Navbar />
-        
-        <div className="flex-1 flex items-center justify-center py-12 px-4">
-          <Card className="w-full max-w-md bg-black/80 backdrop-blur-sm border-zinc-800">
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl text-white text-center">Welcome</CardTitle>
-            <CardDescription className="text-center text-gray-400">
+      <div className="grid flex-1 lg:grid-cols-2">
+        <div className="relative hidden lg:block">
+          <img src={heroImage} alt="Smart Closet store" className="absolute inset-0 h-full w-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+          <div className="absolute bottom-12 left-12 right-12 text-white">
+            <p className="mb-3 text-xs font-medium uppercase tracking-[0.2em] text-white/80">Members get more</p>
+            <p className="font-display text-4xl leading-tight text-white">Save your favourites, track orders and unlock AI styling tools.</p>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-center px-6 py-16">
+          <div className="w-full max-w-md">
+            <p className="eyebrow mb-3">My account</p>
+            <h1 className="font-display text-4xl md:text-5xl">Welcome</h1>
+            <p className="mt-3 mb-10 text-muted-foreground">
               Sign in or create an account to continue shopping
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+            </p>
             <Tabs defaultValue="signin" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-6 bg-zinc-800">
-                <TabsTrigger value="signin" className="text-white data-[state=active]:bg-primary">Sign In</TabsTrigger>
-                <TabsTrigger value="signup" className="text-white data-[state=active]:bg-primary">Sign Up</TabsTrigger>
+              <TabsList className="mb-8 grid h-12 w-full grid-cols-2 rounded-full bg-secondary p-1">
+                <TabsTrigger value="signin" className="rounded-full data-[state=active]:bg-background data-[state=active]:shadow-sm">Sign In</TabsTrigger>
+                <TabsTrigger value="signup" className="rounded-full data-[state=active]:bg-background data-[state=active]:shadow-sm">Sign Up</TabsTrigger>
               </TabsList>
               
               <TabsContent value="signin">
                 <form onSubmit={handleSignIn} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="signin-email" className="text-white">Email</Label>
+                    <Label htmlFor="signin-email" className="eyebrow">Email</Label>
                     <Input
                       id="signin-email"
                       name="email"
                       type="email"
                       placeholder="you@example.com"
                       required
-                      className="bg-zinc-800 border-zinc-700 text-white"
+                      className="h-12 bg-card"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="signin-password" className="text-white">Password</Label>
+                    <Label htmlFor="signin-password" className="eyebrow">Password</Label>
                     <Input
                       id="signin-password"
                       name="password"
                       type="password"
                       required
-                      className="bg-zinc-800 border-zinc-700 text-white"
+                      className="h-12 bg-card"
                     />
                   </div>
                   <Button
                     type="submit"
-                    className="w-full bg-primary hover:bg-primary/90"
+                    className="w-full h-12 rounded-full text-xs uppercase tracking-[0.15em]"
                     disabled={loading}
                   >
                     {loading ? "Signing in..." : "Sign In"}
@@ -130,30 +123,30 @@ export default function Auth() {
               <TabsContent value="signup">
                 <form onSubmit={handleSignUp} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="signup-email" className="text-white">Email</Label>
+                    <Label htmlFor="signup-email" className="eyebrow">Email</Label>
                     <Input
                       id="signup-email"
                       name="email"
                       type="email"
                       placeholder="you@example.com"
                       required
-                      className="bg-zinc-800 border-zinc-700 text-white"
+                      className="h-12 bg-card"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="signup-password" className="text-white">Password</Label>
+                    <Label htmlFor="signup-password" className="eyebrow">Password</Label>
                     <Input
                       id="signup-password"
                       name="password"
                       type="password"
                       required
                       minLength={6}
-                      className="bg-zinc-800 border-zinc-700 text-white"
+                      className="h-12 bg-card"
                     />
                   </div>
                   <Button
                     type="submit"
-                    className="w-full bg-primary hover:bg-primary/90"
+                    className="w-full h-12 rounded-full text-xs uppercase tracking-[0.15em]"
                     disabled={loading}
                   >
                     {loading ? "Creating account..." : "Create Account"}
@@ -161,12 +154,11 @@ export default function Auth() {
                 </form>
               </TabsContent>
             </Tabs>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
-      
+
       <Footer />
-      </div>
     </div>
   );
 }

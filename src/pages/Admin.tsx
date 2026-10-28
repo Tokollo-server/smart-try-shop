@@ -112,8 +112,8 @@ const Admin = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-white">Loading...</div>
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-muted-foreground">Loading...</div>
       </div>
     );
   }
@@ -123,44 +123,44 @@ const Admin = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-background">
       <Navbar />
       
       <div className="container py-8">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2 text-white">Admin Dashboard</h1>
-          <p className="text-gray-400">Manage your store and track performance</p>
+          <h1 className="font-display text-4xl md:text-5xl mb-2">Admin Dashboard</h1>
+          <p className="text-muted-foreground">Manage your store and track performance</p>
         </div>
 
         {/* AI Insights Card */}
-        <Card className="mb-8 bg-gradient-to-br from-primary/20 to-purple-600/20 border-primary/30">
+        <Card className="mb-8 bg-secondary border-0 shadow-none">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-white">
-              <Sparkles className="h-5 w-5 text-primary" />
+            <CardTitle className="flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-accent" />
               AI-Powered Insights
             </CardTitle>
-            <CardDescription className="text-gray-300">
+            <CardDescription className="text-muted-foreground">
               Real-time analysis of your store performance
             </CardDescription>
           </CardHeader>
           <CardContent>
             {loadingInsights ? (
               <div className="flex items-center justify-center py-8">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                <Loader2 className="h-8 w-8 animate-spin text-accent" />
               </div>
             ) : aiInsights ? (
               <div className="space-y-6">
                 {/* Best Categories */}
                 <div>
-                  <h3 className="font-semibold text-lg mb-3 text-white flex items-center gap-2">
-                    <TrendingUp className="h-5 w-5 text-green-400" />
+                  <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
+                    <TrendingUp className="h-5 w-5 text-emerald-700" />
                     Best-Selling Categories
                   </h3>
                   <div className="space-y-2">
                     {aiInsights.bestCategories.map((cat, idx) => (
-                      <div key={idx} className="p-3 bg-black/40 rounded-lg border border-primary/20">
-                        <p className="font-medium text-primary">{cat.category}</p>
-                        <p className="text-sm text-gray-300 mt-1">{cat.insight}</p>
+                      <div key={idx} className="p-3 bg-background rounded-lg border border-border">
+                        <p className="font-medium text-accent">{cat.category}</p>
+                        <p className="text-sm text-muted-foreground mt-1">{cat.insight}</p>
                       </div>
                     ))}
                   </div>
@@ -168,15 +168,15 @@ const Admin = () => {
 
                 {/* Customer Trends */}
                 <div>
-                  <h3 className="font-semibold text-lg mb-3 text-white flex items-center gap-2">
-                    <Users className="h-5 w-5 text-blue-400" />
+                  <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
+                    <Users className="h-5 w-5 text-sky-700" />
                     Customer Trends
                   </h3>
                   <div className="space-y-2">
                     {aiInsights.customerTrends.map((trend, idx) => (
-                      <div key={idx} className="p-3 bg-black/40 rounded-lg border border-primary/20">
-                        <p className="font-medium text-blue-400">{trend.trend}</p>
-                        <p className="text-sm text-gray-300 mt-1">{trend.detail}</p>
+                      <div key={idx} className="p-3 bg-background rounded-lg border border-border">
+                        <p className="font-medium text-sky-700">{trend.trend}</p>
+                        <p className="text-sm text-muted-foreground mt-1">{trend.detail}</p>
                       </div>
                     ))}
                   </div>
@@ -184,22 +184,22 @@ const Admin = () => {
 
                 {/* Top Recommendations */}
                 <div>
-                  <h3 className="font-semibold text-lg mb-3 text-white flex items-center gap-2">
-                    <Package className="h-5 w-5 text-purple-400" />
+                  <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
+                    <Package className="h-5 w-5 text-accent" />
                     Recommended Products to Promote
                   </h3>
                   <div className="space-y-2">
                     {aiInsights.topRecommendations.map((rec, idx) => (
-                      <div key={idx} className="p-3 bg-black/40 rounded-lg border border-primary/20">
-                        <p className="font-medium text-purple-400">{rec.product}</p>
-                        <p className="text-sm text-gray-300 mt-1">{rec.reason}</p>
+                      <div key={idx} className="p-3 bg-background rounded-lg border border-border">
+                        <p className="font-medium text-accent">{rec.product}</p>
+                        <p className="text-sm text-muted-foreground mt-1">{rec.reason}</p>
                       </div>
                     ))}
                   </div>
                 </div>
               </div>
             ) : (
-              <div className="text-center py-8 text-gray-400">
+              <div className="text-center py-8 text-muted-foreground">
                 No insights available
               </div>
             )}
@@ -208,15 +208,15 @@ const Admin = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {stats.map((stat) => (
-            <Card key={stat.title} className="bg-zinc-900 border-zinc-800">
+            <Card key={stat.title}>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-white">{stat.title}</CardTitle>
-                <div className="text-primary">{stat.icon}</div>
+                <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
+                <div className="text-accent">{stat.icon}</div>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-white">{stat.value}</div>
-                <p className="text-xs text-gray-400 mt-1">
-                  <span className="text-green-400">{stat.change}</span> from last month
+                <div className="text-2xl font-bold">{stat.value}</div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  <span className="text-emerald-700">{stat.change}</span> from last month
                 </p>
               </CardContent>
             </Card>
@@ -224,47 +224,47 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="bg-zinc-900 border border-zinc-800">
-            <TabsTrigger value="overview" className="text-white data-[state=active]:bg-primary">Overview</TabsTrigger>
-            <TabsTrigger value="orders" className="text-white data-[state=active]:bg-primary">Orders</TabsTrigger>
-            <TabsTrigger value="products" className="text-white data-[state=active]:bg-primary">Products</TabsTrigger>
-            <TabsTrigger value="analytics" className="text-white data-[state=active]:bg-primary">Analytics</TabsTrigger>
+          <TabsList className="bg-secondary">
+            <TabsTrigger value="overview" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Overview</TabsTrigger>
+            <TabsTrigger value="orders" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Orders</TabsTrigger>
+            <TabsTrigger value="products" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Products</TabsTrigger>
+            <TabsTrigger value="analytics" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Analytics</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card className="bg-zinc-900 border-zinc-800">
+              <Card>
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-white">
+                  <CardTitle className="flex items-center gap-2">
                     <TrendingUp className="h-5 w-5" />
                     Sales Overview
                   </CardTitle>
-                  <CardDescription className="text-gray-400">Your sales performance this month</CardDescription>
+                  <CardDescription className="text-muted-foreground">Your sales performance this month</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-64 flex items-center justify-center text-gray-400">
+                  <div className="h-64 flex items-center justify-center text-muted-foreground">
                     Sales chart will be displayed here
                   </div>
                 </CardContent>
               </Card>
 
-              <Card className="bg-zinc-900 border-zinc-800">
+              <Card>
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-white">
+                  <CardTitle className="flex items-center gap-2">
                     <BarChart3 className="h-5 w-5" />
                     Top Products
                   </CardTitle>
-                  <CardDescription className="text-gray-400">Best selling items this month</CardDescription>
+                  <CardDescription className="text-muted-foreground">Best selling items this month</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
                     {[1, 2, 3].map((i) => (
                       <div key={i} className="flex items-center justify-between">
                         <div>
-                          <p className="font-medium text-white">Product {i}</p>
-                          <p className="text-sm text-gray-400">{50 + i * 10} sales</p>
+                          <p className="font-medium">Product {i}</p>
+                          <p className="text-sm text-muted-foreground">{50 + i * 10} sales</p>
                         </div>
-                        <p className="font-semibold text-white">${(i * 1000).toFixed(2)}</p>
+                        <p className="font-semibold">${(i * 1000).toFixed(2)}</p>
                       </div>
                     ))}
                   </div>
@@ -274,13 +274,13 @@ const Admin = () => {
           </TabsContent>
 
           <TabsContent value="orders">
-            <Card className="bg-zinc-900 border-zinc-800">
+            <Card>
               <CardHeader>
-                <CardTitle className="text-white">Recent Orders</CardTitle>
-                <CardDescription className="text-gray-400">Latest orders from your store</CardDescription>
+                <CardTitle>Recent Orders</CardTitle>
+                <CardDescription className="text-muted-foreground">Latest orders from your store</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-400 text-center py-8">
+                <p className="text-muted-foreground text-center py-8">
                   Order management interface will be displayed here
                 </p>
               </CardContent>
@@ -288,13 +288,13 @@ const Admin = () => {
           </TabsContent>
 
           <TabsContent value="products">
-            <Card className="bg-zinc-900 border-zinc-800">
+            <Card>
               <CardHeader>
-                <CardTitle className="text-white">Product Management</CardTitle>
-                <CardDescription className="text-gray-400">Manage your product catalog</CardDescription>
+                <CardTitle>Product Management</CardTitle>
+                <CardDescription className="text-muted-foreground">Manage your product catalog</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-400 text-center py-8">
+                <p className="text-muted-foreground text-center py-8">
                   Product management interface will be displayed here
                 </p>
               </CardContent>
@@ -302,28 +302,28 @@ const Admin = () => {
           </TabsContent>
 
           <TabsContent value="analytics">
-            <Card className="bg-zinc-900 border-zinc-800">
+            <Card>
               <CardHeader>
-                <CardTitle className="text-white">AI-Powered Analytics</CardTitle>
-                <CardDescription className="text-gray-400">Insights and predictions for your store</CardDescription>
+                <CardTitle>AI-Powered Analytics</CardTitle>
+                <CardDescription className="text-muted-foreground">Insights and predictions for your store</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-6">
-                  <div className="p-4 bg-black/40 rounded-lg border border-primary/20">
-                    <h3 className="font-semibold mb-2 text-white">Sales Predictions</h3>
-                    <p className="text-sm text-gray-300">
+                  <div className="p-4 bg-background rounded-lg border border-border">
+                    <h3 className="font-semibold mb-2">Sales Predictions</h3>
+                    <p className="text-sm text-muted-foreground">
                       Based on current trends, we predict 15% growth in the next month
                     </p>
                   </div>
-                  <div className="p-4 bg-black/40 rounded-lg border border-primary/20">
-                    <h3 className="font-semibold mb-2 text-white">Customer Behavior</h3>
-                    <p className="text-sm text-gray-300">
+                  <div className="p-4 bg-background rounded-lg border border-border">
+                    <h3 className="font-semibold mb-2">Customer Behavior</h3>
+                    <p className="text-sm text-muted-foreground">
                       Peak shopping hours: 6-9 PM | Most popular category: Women's Fashion
                     </p>
                   </div>
-                  <div className="p-4 bg-black/40 rounded-lg border border-primary/20">
-                    <h3 className="font-semibold mb-2 text-white">Inventory Recommendations</h3>
-                    <p className="text-sm text-gray-300">
+                  <div className="p-4 bg-background rounded-lg border border-border">
+                    <h3 className="font-semibold mb-2">Inventory Recommendations</h3>
+                    <p className="text-sm text-muted-foreground">
                       Restock suggested for 3 items | New trending products identified
                     </p>
                   </div>

@@ -46,11 +46,11 @@ export const AIOutfitRecommendations = ({ productName, productType = "clothing" 
     return (
       <div className="py-12">
         <div className="flex items-center justify-center gap-2 mb-6">
-          <Sparkles className="h-5 w-5 text-primary" />
-          <h2 className="text-2xl font-bold">AI-Recommended Combos</h2>
+          <Sparkles className="h-5 w-5 text-accent" />
+          <h2 className="font-display text-3xl">AI-Recommended Combos</h2>
         </div>
         <div className="flex justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <Loader2 className="h-8 w-8 animate-spin text-accent" />
         </div>
       </div>
     );
@@ -59,18 +59,18 @@ export const AIOutfitRecommendations = ({ productName, productType = "clothing" 
   return (
     <div className="py-12">
       <div className="flex items-center justify-center gap-2 mb-6">
-        <Sparkles className="h-5 w-5 text-primary animate-pulse" />
-        <h2 className="text-2xl font-bold">AI-Recommended Combos</h2>
+        <Sparkles className="h-5 w-5 text-accent" />
+        <h2 className="font-display text-3xl">AI-Recommended Combos</h2>
       </div>
       
       <div className="grid md:grid-cols-3 gap-6">
         {recommendations.map((rec, index) => (
-          <Card key={index} className="p-6 hover:shadow-lg transition-shadow animate-fade-in">
-            <h3 className="font-bold text-lg mb-4 text-primary">{rec.name}</h3>
+          <Card key={index} className="p-6 bg-secondary border-0 shadow-none animate-fade-in">
+            <h3 className="font-display text-xl mb-4">{rec.name}</h3>
             <ul className="space-y-2">
               {rec.items.map((item, idx) => (
                 <li key={idx} className="flex items-start gap-2">
-                  <span className="text-primary mt-1">•</span>
+                  <span className="text-accent mt-1">•</span>
                   <span className="text-sm">{item}</span>
                 </li>
               ))}

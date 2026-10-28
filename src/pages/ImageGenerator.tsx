@@ -68,20 +68,21 @@ const ImageGenerator = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="container mx-auto px-4 py-8 pt-24 max-w-4xl">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-2 flex items-center justify-center gap-2">
-            <Sparkles className="h-8 w-8 text-primary" />
-            AI Image Generator
-          </h1>
+      <div className="container mx-auto px-4 py-16 max-w-4xl">
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 text-accent text-xs font-medium uppercase tracking-[0.15em] mb-6">
+            <Sparkles className="h-4 w-4" />
+            <span>AI Studio</span>
+          </div>
+          <h1 className="font-display text-4xl md:text-5xl mb-3">AI Image Generator</h1>
           <p className="text-muted-foreground">
             Powered by Nano Banana (Gemini 2.5 Flash Image)
           </p>
         </div>
 
-        <Card className="mb-8">
+        <Card className="mb-8 shadow-none">
           <CardHeader>
-            <CardTitle>Describe Your Image</CardTitle>
+            <CardTitle className="font-display text-2xl font-normal">Describe Your Image</CardTitle>
             <CardDescription>
               Enter a detailed description of the image you want to create
             </CardDescription>
@@ -97,7 +98,7 @@ const ImageGenerator = () => {
             <Button 
               onClick={handleGenerate} 
               disabled={loading || !prompt.trim()}
-              className="w-full"
+              className="w-full h-12 rounded-full text-xs uppercase tracking-[0.15em]"
               size="lg"
             >
               {loading ? (
@@ -116,9 +117,9 @@ const ImageGenerator = () => {
         </Card>
 
         {generatedImage && (
-          <Card>
+          <Card className="shadow-none">
             <CardHeader>
-              <CardTitle>Generated Image</CardTitle>
+              <CardTitle className="font-display text-2xl font-normal">Generated Image</CardTitle>
               {description && (
                 <CardDescription>{description}</CardDescription>
               )}
@@ -143,7 +144,7 @@ const ImageGenerator = () => {
           </Card>
         )}
 
-        <div className="mt-8 p-4 bg-muted rounded-lg">
+        <div className="mt-8 p-6 bg-secondary rounded-lg">
           <h3 className="font-semibold mb-2">Tips for Better Results:</h3>
           <ul className="text-sm text-muted-foreground space-y-1">
             <li>• Be specific about colors, lighting, and mood</li>

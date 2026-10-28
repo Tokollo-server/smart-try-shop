@@ -69,7 +69,8 @@ export const SmartStylistChat = () => {
       {!isOpen && (
         <Button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg hover:scale-110 transition-transform z-50"
+          className="fixed bottom-20 right-6 h-14 w-14 rounded-full bg-accent text-accent-foreground shadow-lg hover:bg-accent/90 hover:scale-105 transition-transform z-50"
+          aria-label="Open Smart Stylist chat"
           size="icon"
         >
           <MessageCircle className="h-6 w-6" />
@@ -78,18 +79,18 @@ export const SmartStylistChat = () => {
 
       {/* Chat Window */}
       {isOpen && (
-        <Card className="fixed bottom-6 right-6 w-96 h-[500px] shadow-2xl flex flex-col z-50 animate-scale-in">
+        <Card className="fixed bottom-20 right-4 left-4 sm:left-auto sm:right-6 sm:w-96 h-[500px] max-h-[calc(100vh-7rem)] overflow-hidden rounded-lg border-border shadow-2xl flex flex-col z-50 animate-scale-in">
           {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b bg-gradient-to-r from-primary to-primary/80">
+          <div className="flex items-center justify-between p-4 bg-primary">
             <div className="flex items-center gap-2 text-primary-foreground">
-              <Sparkles className="h-5 w-5" />
-              <h3 className="font-bold">Smart Stylist</h3>
+              <Sparkles className="h-5 w-5 text-accent" />
+              <h3 className="font-display text-lg text-primary-foreground">Smart Stylist</h3>
             </div>
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setIsOpen(false)}
-              className="text-primary-foreground hover:bg-white/20"
+              className="text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
             >
               <X className="h-4 w-4" />
             </Button>
@@ -103,7 +104,7 @@ export const SmartStylistChat = () => {
                 className={`flex ${message.role === "user" ? "justify-end" : "justify-start"} animate-fade-in`}
               >
                 <div
-                  className={`max-w-[80%] rounded-lg p-3 ${
+                  className={`max-w-[80%] rounded-2xl px-4 py-3 ${
                     message.role === "user"
                       ? "bg-primary text-primary-foreground"
                       : "bg-secondary"

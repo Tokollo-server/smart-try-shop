@@ -3,18 +3,14 @@ import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "@/lib/shopify";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { ShoppingCart } from "lucide-react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { useCartStore } from "@/stores/cartStore";
-import { toast } from "sonner";
+import { ProductCard, ProductCardSkeleton } from "@/components/ProductCard";
+import { ShoppingBag } from "lucide-react";
+import { Link, useSearchParams } from "react-router-dom";
+import { cn } from "@/lib/utils";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const CatalogWithSort = () => {
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const addItem = useCartStore(state => state.addItem);
   const category = searchParams.get('category');
   const searchQuery = searchParams.get('search');
   
@@ -79,126 +75,106 @@ const CatalogWithSort = () => {
     return filtered;
   }, [products, category, searchQuery, sortBy, genderFilter]);
 
-  const handleAddToCart = (product: any) => {
-    const variant = product.node.variants.edges[0].node;
-    addItem({
-      product,
-      variantId: variant.id,
-      variantTitle: variant.title,
-      price: variant.price,
-      quantity: 1,
-      selectedOptions: variant.selectedOptions
-    });
-    toast.success("Added to cart!");
-  };
-
   const categoryTitle = searchQuery 
     ? `Search results for "${searchQuery}"`
     : category 
     ? category.charAt(0).toUpperCase() + category.slice(1)
     : "All Products";
 
+  const categoryLinks = [
+    { label: "All", value: null },
+    { label: "Women", value: "women" },
+    { label: "Men", value: "men" },
+    { label: "Kids", value: "kids" },
+    { label: "Accessories", value: "accessories" },
+  ];
+
   return (
-    <div className="min-h-screen bg-black flex flex-col">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      
-      <div className="container py-12 flex-1">
-        <div className="mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-white">{categoryTitle}</h1>
-          
-          <div className="flex flex-wrap gap-4 items-center">
-            <div className="flex items-center gap-2">
-              <label className="text-sm text-gray-400">Gender:</label>
-              <Select value={genderFilter} onValueChange={setGenderFilter}>
-                <SelectTrigger className="w-[140px] bg-zinc-900 border-zinc-800 text-white">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="bg-zinc-900 border-zinc-800">
-                  <SelectItem value="all" className="text-white">All</SelectItem>
-                  <SelectItem value="men" className="text-white">Men</SelectItem>
-                  <SelectItem value="women" className="text-white">Women</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
 
-            <div className="flex items-center gap-2">
-              <label className="text-sm text-gray-400">Sort by:</label>
-              <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger className="w-[160px] bg-zinc-900 border-zinc-800 text-white">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="bg-zinc-900 border-zinc-800">
-                  <SelectItem value="featured" className="text-white">Featured</SelectItem>
-                  <SelectItem value="price-low" className="text-white">Price: Low to High</SelectItem>
-                  <SelectItem value="price-high" className="text-white">Price: High to Low</SelectItem>
-                </SelectContent>
-              </Select>
+      <section className="bg-secondary">
+        <div className="container py-14 md:py-20">
+          <p className="eyebrow mb-4">
+            <Link to="/" className="hover:text-foreground">Home</Link> / Shop
+          </p>
+          <h1 className="font-display text-4xl md:text-6xl">{categoryTitle}</h1>
+          {!searchQuery && (
+            <div className="mt-8 flex flex-wrap gap-2">
+              {categoryLinks.map((link) => (
+                <Link
+                  key={link.label}
+                  to={link.value ? `/catalog?category=${link.value}` : "/catalog"}
+                  className={cn(
+                    "rounded-full border px-5 py-2 text-xs font-medium uppercase tracking-[0.15em] transition-colors",
+                    category === link.value
+                      ? "border-foreground bg-foreground text-background"
+                      : "border-foreground/20 hover:border-foreground"
+                  )}
+                >
+                  {link.label}
+                </Link>
+              ))}
             </div>
+          )}
+        </div>
+      </section>
 
-            <div className="ml-auto text-sm text-gray-400">
-              {filteredAndSortedProducts.length} products
-            </div>
+      <div className="container py-10 flex-1">
+        <div className="mb-10 flex flex-wrap items-center gap-4 border-b border-border pb-6">
+          <div className="flex items-center gap-2">
+            <label className="eyebrow">Gender</label>
+            <Select value={genderFilter} onValueChange={setGenderFilter}>
+              <SelectTrigger className="w-[140px] rounded-full bg-card">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="men">Men</SelectItem>
+                <SelectItem value="women">Women</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <label className="eyebrow">Sort by</label>
+            <Select value={sortBy} onValueChange={setSortBy}>
+              <SelectTrigger className="w-[180px] rounded-full bg-card">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="featured">Featured</SelectItem>
+                <SelectItem value="price-low">Price: Low to High</SelectItem>
+                <SelectItem value="price-high">Price: High to Low</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="ml-auto text-sm text-muted-foreground">
+            {filteredAndSortedProducts.length} products
           </div>
         </div>
 
         {isLoading ? (
-          <div className="text-center py-20">
-            <p className="text-gray-400">Loading products...</p>
+          <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 md:gap-x-6 lg:grid-cols-4">
+            {Array.from({ length: 8 }).map((_, idx) => <ProductCardSkeleton key={idx} />)}
           </div>
         ) : filteredAndSortedProducts.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {filteredAndSortedProducts.map((product) => {
-              const image = product.node.images?.edges?.[0]?.node;
-              const price = product.node.priceRange.minVariantPrice;
-              
-              return (
-                <Card 
-                  key={product.node.id}
-                  className="group overflow-hidden bg-zinc-900 border-zinc-800 hover:border-zinc-700 transition-all"
-                >
-                  <div 
-                    className="aspect-square overflow-hidden bg-zinc-800 cursor-pointer"
-                    onClick={() => navigate(`/product/${product.node.handle}`)}
-                  >
-                    {image ? (
-                      <img
-                        src={image.url}
-                        alt={image.altText || product.node.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <ShoppingCart className="h-16 w-16 text-gray-600" />
-                      </div>
-                    )}
-                  </div>
-                  
-                  <div className="p-4 space-y-3">
-                    <div onClick={() => navigate(`/product/${product.node.handle}`)} className="cursor-pointer">
-                      <h3 className="font-semibold line-clamp-1 mb-1 text-white">{product.node.title}</h3>
-                      <p className="text-lg font-bold text-primary">
-                        {price.currencyCode} {parseFloat(price.amount).toFixed(2)}
-                      </p>
-                    </div>
-                    <Button 
-                      className="w-full bg-primary hover:bg-primary/90" 
-                      size="sm"
-                      onClick={() => handleAddToCart(product)}
-                    >
-                      Add to Cart
-                    </Button>
-                  </div>
-                </Card>
-              );
-            })}
+          <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 md:gap-x-6 lg:grid-cols-4">
+            {filteredAndSortedProducts.map((product) => (
+              <ProductCard key={product.node.id} product={product} />
+            ))}
           </div>
         ) : (
-          <div className="text-center py-20">
-            <ShoppingCart className="h-20 w-20 text-gray-600 mx-auto mb-4" />
-            <h3 className="text-2xl font-bold mb-2 text-white">No products found</h3>
-            <p className="text-gray-400">
+          <div className="py-24 text-center">
+            <ShoppingBag className="mx-auto mb-6 h-12 w-12 text-muted-foreground/50" />
+            <h3 className="font-display text-3xl">No products found</h3>
+            <p className="mt-3 text-muted-foreground">
               Try adjusting your filters or search query.
             </p>
+            <Link to="/catalog" className="mt-8 inline-block rounded-full border border-foreground px-8 py-3 text-xs font-medium uppercase tracking-[0.15em] transition-colors hover:bg-foreground hover:text-background">
+              View all products
+            </Link>
           </div>
         )}
       </div>
